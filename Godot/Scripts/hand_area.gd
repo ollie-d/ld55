@@ -31,6 +31,7 @@ func add_card(card):
         if card not in cards:
             cards.append(card)
             arrange_cards()
+            card.set_home(self)
             return true
     return false
 

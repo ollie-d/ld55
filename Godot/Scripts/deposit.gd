@@ -7,7 +7,7 @@ var tornado_r = 4.0
 var deposit_type = 'fire'
 
 func _init():
-	is_deposit = true
+	is_deposit = true # godot pls let me ignore errors when you're wrong :(
 
 
 func _ready():
@@ -25,7 +25,7 @@ func update_text():
 [tornado radius={r} freq={f}][center]x{dl}[/center][/tornado]""".format({'dl':deposits_left, 'r':tornado_r, 'f':10-deposits_left})
 	else:
 		%deposit_label.text = """
-		[center]x0[/center]"""
+[center]x0[/center]"""
 
 
 func check_deposit(card: Card):

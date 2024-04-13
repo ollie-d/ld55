@@ -87,16 +87,20 @@ func card_placed_in_fuser(fuser: Fuser, card: Card):
 				print('Added to deposit')
 				return_card = false
 				card.in_fuser()
+			else:
+				print('Else reached')
 		else:
-			print('Added to normal fuser')
+			return_card = false
 			card.in_fuser()
 		
 	if return_card:
 		print('Should return card')
-		if card.is_in_hand:
-			card.hand_ref.add_card(card)
-		elif card.is_in_fuser:
-			card.fuser_ref.add_card(card)
+		print(card.home_object.is_deposit)
+		card.home_object.add_card(card)
+		#if card.is_in_hand:
+		#	card.hand_ref.add_card(card)
+		#elif card.is_in_fuser:
+		#	card.fuser_ref.add_card(card)
 	
 
 

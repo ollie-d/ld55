@@ -26,12 +26,15 @@ var is_over_fuser = false
 var mana_cost = 1
 var fuser_ref: Fuser
 var hand_ref: Hand
-var position_modifier = Vector2(0.0, -0.0)
+var position_modifier = Vector2(0.0, -20.0)
 var scale_modifier = Vector2(1.2, 1.2)
 
+var default_z = 1.0
 var original_position 
 
 var being_destroyed = false
+
+var home_object
 
 var tooltip = null
 
@@ -44,7 +47,12 @@ func _ready():
 		$ColorRect.visible = true
 	else:
 		$ColorRect.visible = false
+	
+	self.z_index = default_z
 
+
+func set_home(object):
+	home_object = object
 
 func update_card():
 	if art != null:
@@ -111,17 +119,23 @@ func _physics_process(delta):
 			var hover_check_failed = true
 			if len(global.hover_queue) > 0:
 				if self == global.hover_queue[0]:
-					self.position += position_modifier
+					self.position = original_position + position_modifier
 					self.scale = scale_modifier
 					if tooltip != null:
 						$tooltip.visible = true
+					self.z_index = 10
+					%card.material.set_shader_parameter("width", 2)
 					hover_check_failed = false
 			if hover_check_failed and !hovered:
 				self.position = original_position
 				self.scale = Vector2(1.0, 1.0)
+				%card.material.set_shader_parameter("width", 0)
+				self.z_index = default_z
 				$tooltip.visible = false
 		else:
 			$tooltip.visible = false
+			self.z_index = default_z
+			%card.material.set_shader_parameter("width", 0)
 
 
 func destroy():

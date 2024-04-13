@@ -23,10 +23,15 @@ func _process(delta):
 
 
 func add_card(card: Card) -> bool:
-	if child == null:
+	if child == card:
+		card.position = self.position
+		card.original_position = self.position
+	elif child == null:
 		child = card
 		card.position = self.position
 		card.original_position = self.position
+		if !is_deposit:
+			card.set_home(self)
 		return true
 	else:
 		# Check either combination of cards

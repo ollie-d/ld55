@@ -1,11 +1,21 @@
-[gd_scene load_steps=8 format=3 uid="uid://b2p3u2th2itps"]
+[gd_scene load_steps=10 format=3 uid="uid://b2p3u2th2itps"]
 
 [ext_resource type="Script" path="res://Scripts/Cards/base_card.gd" id="1_04y7j"]
 [ext_resource type="Texture2D" uid="uid://l2hosuhg46k8" path="res://Assets/Cards/blank_card.png" id="1_tshap"]
 [ext_resource type="Texture2D" uid="uid://cdayd3h6j04ob" path="res://Assets/Cards/card_symbol_face.png" id="2_gbw3k"]
+[ext_resource type="Shader" path="res://Shaders/fuser.gdshader" id="2_molbd"]
 [ext_resource type="FontFile" uid="uid://cvppyanwmhfuq" path="res://Assets/Fonts/JinxedWizards.ttf" id="3_4egxv"]
 [ext_resource type="Texture2D" uid="uid://chss3qy64rsum" path="res://Assets/Cards/card_x.png" id="4_4ck1j"]
 [ext_resource type="FontFile" uid="uid://bl8p2kairyiyn" path="res://Assets/Fonts/PixelByzantine.ttf" id="6_er0ku"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_up04s"]
+resource_local_to_scene = true
+shader = ExtResource("2_molbd")
+shader_parameter/color = Color(0, 0, 0, 1)
+shader_parameter/width = 2.0
+shader_parameter/pattern = 0
+shader_parameter/inside = false
+shader_parameter/add_margins = true
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t7r1r"]
 size = Vector2(91, 125)
@@ -15,6 +25,7 @@ script = ExtResource("1_04y7j")
 
 [node name="card" type="Sprite2D" parent="."]
 unique_name_in_owner = true
+material = SubResource("ShaderMaterial_up04s")
 texture = ExtResource("1_tshap")
 
 [node name="card_name" type="RichTextLabel" parent="."]
