@@ -1,8 +1,8 @@
-extends Node2D
-
-class_name Card
+class_name Card extends Node2D
 
 @export var card_type = 'base'
+@export_file var art = null
+@export var card_name: String
 
 var hovered = false
 var is_in_fuser = false
@@ -15,61 +15,72 @@ var hand_ref: Hand
 var position_modifier = Vector2(0.0, -0.0)
 var scale_modifier = Vector2(1.2, 1.2)
 
-var ignore_
-
 var original_position 
+
+var being_destroyed = false
 
 signal card_placed_in_fuser
 signal card_placed_in_hand
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	if art != null:
+		%card_symbol.texture = load(art)
+	%card_name.text = card_name
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if hovered and not being_dragged:
-		$ColorRect.color = Color(1.0, 1.0, 0.0)
-	elif is_over_fuser:
-		$ColorRect.color = Color(1.0, 0.0, 1.0)
-	elif being_dragged and is_over_hand:
-		$ColorRect.color = Color(0.0, 1.0, 1.0)
-	elif being_dragged:
-		$ColorRect.color = Color(0.0, 1.0, 0.0)
-	else:
-		$ColorRect.color = Color(1.0, 0.0, 0.0)
-		
-	if being_dragged:
-		self.position = get_viewport().get_mouse_position()
+	if !being_destroyed:
+		if hovered and not being_dragged:
+			$ColorRect.color = Color(1.0, 1.0, 0.0)
+		elif is_over_fuser:
+			$ColorRect.color = Color(1.0, 0.0, 1.0)
+		elif being_dragged and is_over_hand:
+			$ColorRect.color = Color(0.0, 1.0, 1.0)
+		elif being_dragged:
+			$ColorRect.color = Color(0.0, 1.0, 0.0)
+		else:
+			$ColorRect.color = Color(1.0, 0.0, 0.0)
+			
+		if being_dragged:
+			self.position = get_viewport().get_mouse_position()
 
 
 func _physics_process(delta):
 	# Make sure card is never being hovered and dragged
-	if being_dragged:
-		hovered = false
-	
-	# Handle being placed over fuser or hand
-	var bodies = $Area2D.get_overlapping_bodies()
-	for body in bodies:
-		if body is Fuser:
-			is_over_fuser = true
-			fuser_ref = body
-		elif body is Hand:
-			is_over_hand = true
-			hand_ref = body
-	
-	# Handle mouse being hovered over
-	if not being_dragged:
-		var hover_check_failed = true
-		if len(global.hover_queue) > 0:
-			if self == global.hover_queue[0]:
-				self.position += position_modifier
-				self.scale = scale_modifier
-				hover_check_failed = false
-		if hover_check_failed:
-			self.position = original_position
-			self.scale = Vector2(1.0, 1.0)
+	if !being_destroyed:
+		if being_dragged:
+			hovered = false
+		
+		# Handle being placed over fuser or hand
+		var bodies = $Area2D.get_overlapping_bodies()
+		for body in bodies:
+			if body is Fuser:
+				is_over_fuser = true
+				fuser_ref = body
+			elif body is Hand:
+				is_over_hand = true
+				hand_ref = body
+		
+		# Handle mouse being hovered over
+		if not being_dragged:
+			var hover_check_failed = true
+			if len(global.hover_queue) > 0:
+				if self == global.hover_queue[0]:
+					self.position += position_modifier
+					self.scale = scale_modifier
+					hover_check_failed = false
+			if hover_check_failed and !hovered:
+				self.position = original_position
+				self.scale = Vector2(1.0, 1.0)
+
+
+func destroy():
+	being_destroyed = true
+	self.position = Vector2(-100, -100)
+	self.visible = false
+	self.queue_free()
 
 
 func _on_area_2d_mouse_entered():

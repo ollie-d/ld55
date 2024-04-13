@@ -5,6 +5,12 @@ var card_being_hovered: Card = null
 
 var hover_queue = []
 
+var interact_table = {
+	'fire': {'water': 'steam', 'wood': 'ash', 'ash': 'burnt_ash', 'bone': 'charred_bone', 'eye_of_newt': 'ash'},
+	'water': {'fire': 'boiling_water', 'ash': 'paste', 'eye_of_newt': 'newt'}
+}
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
