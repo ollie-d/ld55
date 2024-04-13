@@ -1,44 +1,46 @@
-[gd_scene load_steps=4 format=3 uid="uid://c1s58wpw6vw7b"]
+[gd_scene load_steps=6 format=3 uid="uid://c1s58wpw6vw7b"]
 
 [ext_resource type="PackedScene" uid="uid://bn3bc0f3yocbf" path="res://Scenes/fuser.tscn" id="1_mlna0"]
 [ext_resource type="Script" path="res://Scripts/play_area.gd" id="1_pn6m7"]
 [ext_resource type="PackedScene" uid="uid://c6nyhkhw1uomw" path="res://Scenes/hand_area.tscn" id="3_ku3sd"]
+[ext_resource type="FontFile" uid="uid://bl8p2kairyiyn" path="res://Assets/Fonts/PixelByzantine.ttf" id="4_a4mum"]
+[ext_resource type="PackedScene" uid="uid://cnpc6hkiah3hu" path="res://Scenes/deposit.tscn" id="5_6mqob"]
 
 [node name="PlayArea" type="Node2D"]
 script = ExtResource("1_pn6m7")
 
 [node name="Fuser" parent="." instance=ExtResource("1_mlna0")]
-position = Vector2(351, 226)
+position = Vector2(406, 291)
 
 [node name="Fuser2" parent="." instance=ExtResource("1_mlna0")]
-position = Vector2(518, 227)
+position = Vector2(573, 292)
 
 [node name="Fuser3" parent="." instance=ExtResource("1_mlna0")]
-position = Vector2(695, 228)
+position = Vector2(750, 293)
 
 [node name="hand" parent="." instance=ExtResource("3_ku3sd")]
 unique_name_in_owner = true
-position = Vector2(205, 468)
+position = Vector2(205, 462)
 
 [node name="Button" type="Button" parent="."]
-offset_left = -2.0
-offset_top = 3.0
-offset_right = 122.0
-offset_bottom = 72.0
+offset_left = 19.0
+offset_top = 17.0
+offset_right = 143.0
+offset_bottom = 86.0
 text = "Add Water"
 
 [node name="Button2" type="Button" parent="."]
-offset_left = 1.0
-offset_top = 72.0
-offset_right = 125.0
-offset_bottom = 141.0
+offset_left = 24.0
+offset_top = 89.0
+offset_right = 148.0
+offset_bottom = 158.0
 text = "Add Fire"
 
 [node name="Button3" type="Button" parent="."]
-offset_left = -1.0
-offset_top = 140.0
-offset_right = 146.0
-offset_bottom = 215.0
+offset_left = 21.0
+offset_top = 159.0
+offset_right = 168.0
+offset_bottom = 234.0
 text = "Add Boiling Water"
 
 [node name="Timer" type="Timer" parent="."]
@@ -46,18 +48,56 @@ wait_time = 5.0
 one_shot = true
 
 [node name="TextEdit" type="TextEdit" parent="."]
-offset_left = 341.0
-offset_top = 349.0
-offset_right = 511.0
-offset_bottom = 398.0
+offset_left = 25.0
+offset_top = 236.0
+offset_right = 195.0
+offset_bottom = 285.0
 text = "ash"
 
 [node name="Button4" type="Button" parent="."]
-offset_left = 514.0
-offset_top = 348.0
-offset_right = 616.0
-offset_bottom = 397.0
+offset_left = 44.0
+offset_top = 289.0
+offset_right = 146.0
+offset_bottom = 338.0
 text = "Create"
+
+[node name="mana_label" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+offset_left = 35.0
+offset_top = 501.0
+offset_right = 193.0
+offset_bottom = 596.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.313726)
+theme_override_constants/outline_size = 10
+theme_override_fonts/normal_font = ExtResource("4_a4mum")
+theme_override_font_sizes/normal_font_size = 60
+text = "4 / 4"
+
+[node name="mana_title" type="RichTextLabel" parent="."]
+offset_left = 42.0
+offset_top = 470.0
+offset_right = 180.0
+offset_bottom = 529.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.380392)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/normal_font = ExtResource("4_a4mum")
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=5.0 freq=3]Mana[/wave]"
+
+[node name="Button5" type="Button" parent="."]
+offset_left = 977.0
+offset_top = 467.0
+offset_right = 1123.0
+offset_bottom = 607.0
+theme_override_fonts/font = ExtResource("4_a4mum")
+theme_override_font_sizes/font_size = 48
+text = "End
+ Turn"
+
+[node name="Fuser4" parent="." instance=ExtResource("5_6mqob")]
+position = Vector2(1072, 130)
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]

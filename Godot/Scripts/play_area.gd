@@ -15,6 +15,10 @@ func _process(delta):
 	pass
 
 
+func update_mana():
+	%mana_label.text = "{mana} / {max}".format({'mana':global.mana, 'max':global.mana_max})
+
+
 func create_card_in_fuser(fuser: Fuser, card_type: String):
 	create_card(card_type, null, fuser)
 
@@ -33,8 +37,11 @@ func create_card(card_type: String, hand: Hand = null, fuser: Fuser = null):
 	if fuser == null and hand == null:
 		# By default, add card into player's hand
 		# TODO: THIS NEEDS TO BE REMOVED AT SOME PONT
-		%hand.add_card(card)
-		card.in_hand()
+		if %hand.add_card(card):
+			card.in_hand()
+		else:
+			print('Card cannot be added, destroyed instead')
+			card.destroy()
 	elif fuser != null and hand == null:
 		fuser.add_card(card)
 		card.in_fuser()
@@ -59,16 +66,33 @@ func card_placed_in_hand(hand: Hand, card: Card):
 
 
 func card_placed_in_fuser(fuser: Fuser, card: Card):
+	var return_card = true
+	
 	if card.is_in_hand:
 		card.hand_ref.remove_card(card)
 	elif card.is_in_fuser:
 		card.fuser_ref.remove_card(card)
 	
+	
 	# Make sure the card CAN be added to the fuser, if not return
 	if fuser.add_card(card):
-		print('Added to fuser')
-		card.in_fuser()
-	else:
+		if card.is_in_hand and !fuser.is_deposit:
+			if global.mana >= card.mana_cost:
+				global.mana -= card.mana_cost
+				update_mana()
+				return_card = false
+				card.in_fuser()
+		elif fuser.is_deposit:
+			if fuser.check_deposit(card):
+				print('Added to deposit')
+				return_card = false
+				card.in_fuser()
+		else:
+			print('Added to normal fuser')
+			card.in_fuser()
+		
+	if return_card:
+		print('Should return card')
 		if card.is_in_hand:
 			card.hand_ref.add_card(card)
 		elif card.is_in_fuser:
@@ -85,4 +109,4 @@ func _on_button_3_pressed():
 
 
 func _on_button_4_pressed():
-	create_card($TextEdit.text.to_lower())
+	create_card($TextEdit.text.to_lower().to_snake_case())

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ddofy3d3geg7j"]
+
+[ext_resource type="Script" path="res://Scripts/tooltips.gd" id="1_mn5ir"]
+
+[node name="Tooltips" type="Node2D"]
+script = ExtResource("1_mn5ir")

@@ -1,8 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://b2p3u2th2itps"]
+[gd_scene load_steps=8 format=3 uid="uid://b2p3u2th2itps"]
 
 [ext_resource type="Script" path="res://Scripts/Cards/base_card.gd" id="1_04y7j"]
 [ext_resource type="Texture2D" uid="uid://l2hosuhg46k8" path="res://Assets/Cards/blank_card.png" id="1_tshap"]
 [ext_resource type="Texture2D" uid="uid://cdayd3h6j04ob" path="res://Assets/Cards/card_symbol_face.png" id="2_gbw3k"]
+[ext_resource type="FontFile" uid="uid://cvppyanwmhfuq" path="res://Assets/Fonts/JinxedWizards.ttf" id="3_4egxv"]
+[ext_resource type="Texture2D" uid="uid://chss3qy64rsum" path="res://Assets/Cards/card_x.png" id="4_4ck1j"]
+[ext_resource type="FontFile" uid="uid://bl8p2kairyiyn" path="res://Assets/Fonts/PixelByzantine.ttf" id="6_er0ku"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t7r1r"]
 size = Vector2(91, 125)
@@ -17,19 +20,21 @@ texture = ExtResource("1_tshap")
 [node name="card_name" type="RichTextLabel" parent="."]
 unique_name_in_owner = true
 offset_left = -44.0
-offset_top = -54.0
+offset_top = -60.0
 offset_right = 46.0
-offset_bottom = -30.0
+offset_bottom = -14.0
 theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("3_4egxv")
+theme_override_font_sizes/normal_font_size = 22
 bbcode_enabled = true
-text = "[center]Card Name[/center]"
+text = "[p][center]Boiling[/center][/p][p][center]Water[/center][/p]"
 fit_content = true
 scroll_active = false
 autowrap_mode = 0
 
 [node name="card_symbol" type="Sprite2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(0, 17)
+position = Vector2(0, 14)
 texture = ExtResource("2_gbw3k")
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -45,6 +50,55 @@ offset_top = -26.0
 offset_right = 43.0
 offset_bottom = -12.0
 color = Color(1, 0, 0, 1)
+
+[node name="x" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0.596078)
+texture = ExtResource("4_4ck1j")
+
+[node name="cost" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = 21.0
+offset_top = 41.0
+offset_right = 44.0
+offset_bottom = 60.0
+theme_override_colors/font_color = Color(0.517647, 0.670588, 1, 1)
+theme_override_fonts/font = ExtResource("6_er0ku")
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="tooltip" type="Node2D" parent="."]
+position = Vector2(101, -111)
+
+[node name="bg" type="ColorRect" parent="tooltip"]
+offset_left = -177.0
+offset_top = -51.0
+offset_right = -25.0
+offset_bottom = 48.0
+
+[node name="title" type="Label" parent="tooltip"]
+offset_left = -139.0
+offset_top = -54.0
+offset_right = -39.0
+offset_bottom = -31.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("6_er0ku")
+theme_override_font_sizes/font_size = 25
+text = "Effect"
+
+[node name="tooltip_desc" type="RichTextLabel" parent="tooltip"]
+unique_name_in_owner = true
+offset_left = -173.0
+offset_top = -50.0
+offset_right = -26.0
+offset_bottom = 54.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("6_er0ku")
+bbcode_enabled = true
+text = "
+turn start:
+If possible, Create [wave amp=10 freq=5][color=red]1 fire[/color][/wave] in [color=green]fuser[/color] to the right of card"
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

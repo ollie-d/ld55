@@ -1,11 +1,14 @@
 extends Node2D
 
-var DEBUG = true
+var DEBUG = false
 
 var card_being_held = false
 var card_being_hovered: Card = null
 
 var hover_queue = []
+
+var mana_max = 4
+var mana = 4
 
 var interact_table = {
 	'fire': {'water': 'boiling_water', 'wood': 'ash', 'ash': 'imp', 'bone': 'charred_bone', 'eye_of_newt': 'ash'},

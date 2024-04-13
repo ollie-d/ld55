@@ -1,8 +1,8 @@
-extends StaticBody2D
-
-class_name Fuser
+class_name Fuser extends StaticBody2D
 
 var child: Card = null # this will hold the child in the fuser
+
+var is_deposit = false
 
 signal create_card_in_fuser
 
