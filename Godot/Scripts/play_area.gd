@@ -21,9 +21,10 @@ func create_card_in_fuser(fuser: Fuser, card_type: String):
 
 func create_card(card_type: String, hand: Hand = null, fuser: Fuser = null):
 	# have card_type be an enum that refers to the correct card path. global
-	var card_scene = load("res://Scenes/Cards/%s.tscn" % card_type)
+	var card_scene = load("res://Scenes/Cards/base_card.tscn")
 	var card = card_scene.instantiate()
 	self.add_child(card)
+	card.set_card(card_type)
 	card.card_placed_in_fuser.connect(card_placed_in_fuser)
 	card.card_placed_in_hand.connect(card_placed_in_hand)
 	
@@ -35,10 +36,7 @@ func create_card(card_type: String, hand: Hand = null, fuser: Fuser = null):
 		%hand.add_card(card)
 		card.in_hand()
 	elif fuser != null and hand == null:
-		print('should add to fuser')
-		#$Timer.start()
-		#await $Timer.timeout
-		$Fuser.add_card(card)
+		fuser.add_card(card)
 		card.in_fuser()
 		pass
 	elif fuser == null and hand != null:
@@ -84,3 +82,7 @@ func _on_button_2_pressed():
 
 func _on_button_3_pressed():
 	create_card('boiling_water')
+
+
+func _on_button_4_pressed():
+	create_card($TextEdit.text.to_lower())

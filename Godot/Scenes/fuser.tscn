@@ -27,3 +27,9 @@ texture = ExtResource("2_e285k")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-1, 0)
 shape = SubResource("RectangleShape2D_u6r7g")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -50.0
+offset_top = -88.0
+offset_right = -10.0
+offset_bottom = -65.0

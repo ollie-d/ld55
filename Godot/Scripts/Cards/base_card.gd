@@ -1,8 +1,21 @@
 class_name Card extends Node2D
 
-@export var card_type = 'base'
-@export_file var art = null
-@export var card_name: String
+var card_type = 'base'
+var art = null
+var card_name: String
+
+
+var card_types = {
+	'fire': {'card_type': 'fire', 'art': 'res://Assets/Cards/Symbols/fire.png', 'card_name': '[center]Fire[/center]'},
+	'water': {'card_type': 'water', 'art': 'res://Assets/Cards/Symbols/water.png', 'card_name': '[center]Water[/center]'},
+	'boiling_water': {'card_type': 'boiling_water', 'art': 'res://Assets/Cards/Symbols/boiling_water.png', 'card_name': '[p][center]Boiling[/center][/p][p][center]Water[/center][/p]'},
+	'wood': {'card_type': 'wood', 'art': 'res://Assets/Cards/Symbols/wood.png', 'card_name': '[center]Wood[/center]'},
+	'ash': {'card_type': 'ash', 'art': 'res://Assets/Cards/Symbols/ash.png', 'card_name': '[center]Ash[/center]'},
+	'ent': {'card_type': 'ent', 'art': 'res://Assets/Cards/Symbols/ent.png', 'card_name': '[center]Ent[/center]'},
+	'imp': {'card_type': 'imp', 'art': 'res://Assets/Cards/Symbols/imp.png', 'card_name': '[center]Imp[/center]'},
+	'newt': {'card_type': 'newt', 'art': 'res://Assets/Cards/Symbols/newt.png', 'card_name': '[center]Newt[/center]'},
+	'eye_of_newt': {'card_type': 'eye_of_newt', 'art': 'res://Assets/Cards/Symbols/eye_of_newt.png', 'card_name': '[p][center]Eye of[/center][/p][p][center]Newt[/center][/p]'},
+}
 
 var hovered = false
 var is_in_fuser = false
@@ -24,9 +37,26 @@ signal card_placed_in_hand
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if global.DEBUG:
+		$ColorRect.visible = true
+	else:
+		$ColorRect.visible = false
+
+
+func update_card():
 	if art != null:
 		%card_symbol.texture = load(art)
 	%card_name.text = card_name
+
+
+func set_card(card_type_: String):
+	assert(card_type_ in card_types.keys())
+	
+	card_type = card_types[card_type_]['card_type']
+	art = card_types[card_type_]['art']
+	card_name = card_types[card_type_]['card_name']
+	
+	update_card()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

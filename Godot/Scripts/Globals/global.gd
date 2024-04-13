@@ -1,13 +1,17 @@
 extends Node2D
 
+var DEBUG = true
+
 var card_being_held = false
 var card_being_hovered: Card = null
 
 var hover_queue = []
 
 var interact_table = {
-	'fire': {'water': 'steam', 'wood': 'ash', 'ash': 'burnt_ash', 'bone': 'charred_bone', 'eye_of_newt': 'ash'},
-	'water': {'fire': 'boiling_water', 'ash': 'paste', 'eye_of_newt': 'newt'}
+	'fire': {'water': 'boiling_water', 'wood': 'ash', 'ash': 'imp', 'bone': 'charred_bone', 'eye_of_newt': 'ash'},
+	'water': {'eye_of_newt': 'newt', 'wood': 'ent'},
+	'wood': {'fire': 'ash', 'water': 'ent'},
+	'ash': {'fire': 'imp', 'water': 'paste'}
 }
 
 

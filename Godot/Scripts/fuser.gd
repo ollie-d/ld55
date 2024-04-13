@@ -2,18 +2,24 @@ extends StaticBody2D
 
 class_name Fuser
 
-var child = null # this will hold the child in the fuser
+var child: Card = null # this will hold the child in the fuser
 
 signal create_card_in_fuser
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	if global.DEBUG:
+		$Label.visible = true
+	else:
+		$Label.visible = false
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	pass
+	if child != null:
+		$Label.text = str(child.card_type)
+	else:
+		$Label.text = 'null'
 
 
 func add_card(card: Card) -> bool:
@@ -23,11 +29,23 @@ func add_card(card: Card) -> bool:
 		card.original_position = self.position
 		return true
 	else:
-		if card.card_type in global.interact_table[child.card_type].keys():
-			print('reactable')
-			# If mixable, return true AND queue the mix
-			react(child, card)
-			return true
+		# Check either combination of cards
+		var card0: Card
+		var card1: Card
+		
+		for i in range(2):
+			card0 = card
+			card1 = child
+			if i == 0:
+				card0 = child
+				card1 = card
+				
+			if card0.card_type in global.interact_table.keys():
+				if card1.card_type in global.interact_table[card0.card_type].keys():
+					print('reactable')
+					# If mixable, return true AND queue the mix
+					react(card0, card1)
+					return true
 	return false
 
 
