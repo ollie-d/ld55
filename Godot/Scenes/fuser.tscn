@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://bn3bc0f3yocbf"]
+
+[ext_resource type="Shader" path="res://Shaders/fuser.gdshader" id="1_02ch5"]
+[ext_resource type="Script" path="res://Scripts/fuser.gd" id="1_3rie4"]
+[ext_resource type="Texture2D" uid="uid://c8ccjwnpgm0kt" path="res://Assets/Cards/border_card.png" id="2_e285k"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uk5p0"]
+shader = ExtResource("1_02ch5")
+shader_parameter/color = Color(0.756863, 0.67451, 0.517647, 1)
+shader_parameter/width = 1.0
+shader_parameter/pattern = 0
+shader_parameter/inside = false
+shader_parameter/add_margins = true
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u6r7g"]
+size = Vector2(96, 130)
+
+[node name="Fuser" type="StaticBody2D"]
+process_mode = 3
+script = ExtResource("1_3rie4")
+
+[node name="outline" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_uk5p0")
+texture = ExtResource("2_e285k")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 0)
+shape = SubResource("RectangleShape2D_u6r7g")
