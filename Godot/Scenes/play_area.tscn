@@ -1,15 +1,76 @@
-[gd_scene load_steps=8 format=3 uid="uid://c1s58wpw6vw7b"]
+[gd_scene load_steps=16 format=3 uid="uid://c1s58wpw6vw7b"]
 
 [ext_resource type="PackedScene" uid="uid://bn3bc0f3yocbf" path="res://Scenes/fuser.tscn" id="1_mlna0"]
 [ext_resource type="Script" path="res://Scripts/play_area.gd" id="1_pn6m7"]
+[ext_resource type="Shader" path="res://Shaders/play_area.gdshader" id="2_70ihb"]
+[ext_resource type="Texture2D" uid="uid://c2q1qvw5v4mis" path="res://Assets/background_2.png" id="3_hh8uq"]
 [ext_resource type="PackedScene" uid="uid://c6nyhkhw1uomw" path="res://Scenes/hand_area.tscn" id="3_ku3sd"]
-[ext_resource type="FontFile" uid="uid://bl8p2kairyiyn" path="res://Assets/Fonts/PixelByzantine.ttf" id="4_a4mum"]
 [ext_resource type="PackedScene" uid="uid://cmtlj03gdmmj1" path="res://Scenes/mana_zone.tscn" id="4_l4hcc"]
 [ext_resource type="PackedScene" uid="uid://cnpc6hkiah3hu" path="res://Scenes/deposit.tscn" id="5_6mqob"]
 [ext_resource type="Texture2D" uid="uid://oi1ey0n5thyv" path="res://Assets/Cards/Symbols/arrow.png" id="6_kp7c1"]
+[ext_resource type="FontFile" uid="uid://bl8p2kairyiyn" path="res://Assets/Fonts/PixelByzantine_old.ttf" id="8_pd3md"]
+[ext_resource type="FontFile" uid="uid://cligw5pqnisrc" path="res://Assets/Fonts/PixelByzantine_Edited.ttf" id="8_vro1s"]
+[ext_resource type="Shader" path="res://Shaders/cloud.gdshader" id="11_smyx4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ta1x6"]
+shader = ExtResource("2_70ihb")
+shader_parameter/color = Color(0.533333, 0.435294, 0.305882, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_jkv7c"]
+resource_local_to_scene = true
+noise_type = 0
+frequency = 0.0177
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_fdwjt"]
+resource_local_to_scene = true
+width = 320
+height = 320
+seamless = true
+seamless_blend_skirt = 0.75
+noise = SubResource("FastNoiseLite_jkv7c")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ddsk0"]
+resource_local_to_scene = true
+shader = ExtResource("11_smyx4")
+shader_parameter/density = 0.25
+shader_parameter/speed = Vector2(0.02, 0.01)
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_fdwjt")
 
 [node name="PlayArea" type="Node2D"]
 script = ExtResource("1_pn6m7")
+
+[node name="bg" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_ta1x6")
+position = Vector2(576, 324)
+texture = ExtResource("3_hh8uq")
+metadata/_edit_lock_ = true
+
+[node name="blue_clouds" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_ddsk0")
+offset_left = -37.0
+offset_top = 13.0
+offset_right = 1178.0
+offset_bottom = 725.0
+mouse_filter = 1
+color = Color(0.72549, 1, 1, 0.117647)
+
+[node name="purple_clouds" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_ddsk0")
+offset_left = -20.0
+offset_top = -21.0
+offset_right = 1195.0
+offset_bottom = 691.0
+mouse_filter = 1
+color = Color(0.72549, 0.180392, 1, 0.0784314)
+
+[node name="white_clouds" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_ddsk0")
+offset_left = 8.0
+offset_top = -27.0
+offset_right = 1223.0
+offset_bottom = 685.0
+mouse_filter = 1
+color = Color(0.6, 0.6, 0.6, 0.196078)
 
 [node name="Fuser" parent="." instance=ExtResource("1_mlna0")]
 position = Vector2(357, 315)
@@ -31,6 +92,7 @@ unique_name_in_owner = true
 position = Vector2(205, 462)
 
 [node name="Button" type="Button" parent="."]
+visible = false
 offset_left = 19.0
 offset_top = 17.0
 offset_right = 143.0
@@ -38,6 +100,7 @@ offset_bottom = 86.0
 text = "Add Water"
 
 [node name="Button2" type="Button" parent="."]
+visible = false
 offset_left = 24.0
 offset_top = 89.0
 offset_right = 148.0
@@ -45,6 +108,7 @@ offset_bottom = 158.0
 text = "Add Fire"
 
 [node name="Button3" type="Button" parent="."]
+visible = false
 offset_left = 21.0
 offset_top = 159.0
 offset_right = 168.0
@@ -56,6 +120,7 @@ wait_time = 5.0
 one_shot = true
 
 [node name="TextEdit" type="TextEdit" parent="."]
+visible = false
 offset_left = 25.0
 offset_top = 236.0
 offset_right = 195.0
@@ -63,6 +128,7 @@ offset_bottom = 285.0
 text = "ash"
 
 [node name="Button4" type="Button" parent="."]
+visible = false
 offset_left = 44.0
 offset_top = 289.0
 offset_right = 146.0
@@ -78,13 +144,13 @@ position = Vector2(79, 51)
 [node name="mana_label" type="RichTextLabel" parent="."]
 unique_name_in_owner = true
 offset_left = 35.0
-offset_top = 501.0
+offset_top = 520.0
 offset_right = 193.0
-offset_bottom = 596.0
+offset_bottom = 615.0
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.392157)
 theme_override_constants/shadow_offset_x = 3
 theme_override_constants/shadow_offset_y = 3
-theme_override_fonts/normal_font = ExtResource("4_a4mum")
+theme_override_fonts/normal_font = ExtResource("8_vro1s")
 theme_override_font_sizes/normal_font_size = 60
 text = "4 / 4"
 
@@ -96,7 +162,7 @@ offset_bottom = 529.0
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.380392)
 theme_override_constants/shadow_offset_x = 3
 theme_override_constants/shadow_offset_y = 3
-theme_override_fonts/normal_font = ExtResource("4_a4mum")
+theme_override_fonts/normal_font = ExtResource("8_pd3md")
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=5.0 freq=3]Mana[/wave]"
@@ -104,28 +170,109 @@ text = "[wave amp=5.0 freq=3]Mana[/wave]"
 [node name="end_turn" type="Button" parent="."]
 unique_name_in_owner = true
 offset_left = 977.0
-offset_top = 467.0
+offset_top = 466.0
 offset_right = 1123.0
-offset_bottom = 607.0
-theme_override_fonts/font = ExtResource("4_a4mum")
+offset_bottom = 606.0
+theme_override_fonts/font = ExtResource("8_pd3md")
 theme_override_font_sizes/font_size = 48
 text = "End
  Turn"
 
+[node name="restart" type="Button" parent="."]
+unique_name_in_owner = true
+offset_left = 15.0
+offset_top = 247.0
+offset_right = 212.0
+offset_bottom = 387.0
+theme_override_fonts/font = ExtResource("8_pd3md")
+theme_override_font_sizes/font_size = 48
+text = "restart"
+
 [node name="deposit" parent="." instance=ExtResource("5_6mqob")]
+unique_name_in_owner = true
 position = Vector2(1072, 130)
 
 [node name="arrow" type="Sprite2D" parent="."]
 unique_name_in_owner = true
 visible = false
-modulate = Color(0.266667, 0.67451, 0.490196, 1)
 position = Vector2(406, 290)
 texture = ExtResource("6_kp7c1")
+
+[node name="Button5" type="Button" parent="."]
+visible = false
+offset_left = 513.0
+offset_top = 389.0
+offset_right = 642.0
+offset_bottom = 452.0
+text = "Clear Area
+"
+
+[node name="Button6" type="Button" parent="."]
+visible = false
+offset_left = 321.0
+offset_top = 177.0
+offset_right = 375.0
+offset_bottom = 227.0
+text = "Lvl0"
+
+[node name="Button7" type="Button" parent="."]
+visible = false
+offset_left = 443.0
+offset_top = 179.0
+offset_right = 497.0
+offset_bottom = 229.0
+text = "Lvl1"
+
+[node name="Button8" type="Button" parent="."]
+visible = false
+offset_left = 566.0
+offset_top = 178.0
+offset_right = 620.0
+offset_bottom = 228.0
+text = "Lvl2"
+
+[node name="Button9" type="Button" parent="."]
+visible = false
+offset_left = 690.0
+offset_top = 179.0
+offset_right = 744.0
+offset_bottom = 229.0
+text = "Lvl3"
+
+[node name="Button10" type="Button" parent="."]
+visible = false
+offset_left = 811.0
+offset_top = 179.0
+offset_right = 865.0
+offset_bottom = 229.0
+text = "Lvl4"
+
+[node name="level" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = 4.0
+offset_top = 392.0
+offset_right = 1149.0
+offset_bottom = 452.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.392157)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("8_vro1s")
+theme_override_font_sizes/font_size = 40
+text = "Level x"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
 [connection signal="pressed" from="Button3" to="." method="_on_button_3_pressed"]
 [connection signal="pressed" from="Button4" to="." method="_on_button_4_pressed"]
-[connection signal="pressed" from="end_turn" to="." method="_on_button_5_pressed"]
+[connection signal="pressed" from="end_turn" to="." method="_on_end_turn_pressed"]
+[connection signal="pressed" from="restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="Button5" to="." method="_on_button_5_pressed"]
+[connection signal="pressed" from="Button6" to="." method="_on_button_6_pressed"]
+[connection signal="pressed" from="Button7" to="." method="_on_button_7_pressed"]
+[connection signal="pressed" from="Button8" to="." method="_on_button_8_pressed"]
+[connection signal="pressed" from="Button9" to="." method="_on_button_9_pressed"]
+[connection signal="pressed" from="Button10" to="." method="_on_button_10_pressed"]
 
 [editable path="ManaZone"]

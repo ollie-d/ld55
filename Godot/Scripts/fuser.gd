@@ -69,9 +69,10 @@ func react(reactant0: Card, reactant1: Card):
 	
 	if r1 in global.interact_table[r0].keys():
 		var card_name = global.interact_table[r0][r1]
-		remove_card(reactant0)
 		if reactant1.home_object != null:
 			reactant1.home_object.remove_card(reactant1)
+		if reactant0.home_object != null:
+			reactant0.home_object.remove_card(reactant0)
 		reactant0.destroy()
 		reactant1.destroy()
 		

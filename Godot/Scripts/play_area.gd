@@ -16,11 +16,53 @@ func _ready():
 	$Fuser3.create_card_in_fuser.connect(create_card_in_fuser)
 	$Fuser4.create_card_in_fuser.connect(create_card_in_fuser)
 	$Fuser5.create_card_in_fuser.connect(create_card_in_fuser)
+	
+	%deposit.level_complete.connect(level_complete)
+	
+	if global.DEBUG:
+		$Button.visible = true
+		$Button2.visible = true
+		$Button3.visible = true
+		$Button4.visible = true
+		$TextEdit.visible = true
+		$Button5.visible = true
+		$Button6.visible = true
+		$Button7.visible = true
+		$Button8.visible = true
+		$Button9.visible = true
+		$Button10.visible = true
+	
+	# will move this later
+	load_level()
+
+
+func clear_play_area():
+	# Remove all cards from fusers and hand
+	global.mana = global.mana_max
+	update_mana()
+	for fuser in fusers:
+		fuser.kill_child()
+	%hand.clear_hand()
+	%deposit.deposits_left = %deposit.deposits_needed
+	%deposit.update_text()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
+
+
+func load_level():
+	clear_play_area()
+	for card_type in global.levels[global.current_level]['starting_resources']:
+		create_card_in_hand(%hand, card_type)
+	%deposit.deposit_type = global.levels[global.current_level]['deposit']['card_type']
+	%deposit.deposits_needed = global.levels[global.current_level]['deposit']['quantity']
+	%deposit.deposits_left = %deposit.deposits_needed
+	%deposit.update_text()
+	%deposit.update_card_label()
+	
+	%level.text = 'Level {x} / {y}'.format({'x':global.current_level+1, 'y':global.num_levels})
 
 
 func imp_action(fuser: Fuser):
@@ -64,6 +106,15 @@ func demon_action():
 	create_card_in_hand(%hand, 'wood')
 
 
+func squid_action():
+	var empty_fusers = []
+	for fuser in fusers:
+		if fuser.child == null:
+			empty_fusers.append(fuser)
+	for fuser in empty_fusers:
+		create_card_in_fuser(fuser, 'water')
+
+
 func perform_action(left_fuser: Fuser, active_fuser: Fuser, right_fuser: Fuser):
 	# Perform the action of the card if it has one
 	if (active_fuser.child.card_type == 'imp') and (right_fuser != null):
@@ -74,7 +125,18 @@ func perform_action(left_fuser: Fuser, active_fuser: Fuser, right_fuser: Fuser):
 		boiling_water_action(active_fuser)
 	elif active_fuser.child.card_type == 'demon':
 		demon_action()
+	elif active_fuser.child.card_type == 'squid':
+		squid_action()
 
+
+func level_complete():
+	# Logic for what to do after a level has been beaten
+	global.current_level += 1
+	if global.current_level >= global.num_levels:
+		# Do whatever game over shit
+		pass
+	else:
+		load_level()
 
 func end_turn():
 	# Let's check through our fusers in order to see how to process
@@ -179,15 +241,15 @@ func card_placed_in_fuser(fuser: Fuser, card: Card):
 		if fuser.check_deposit(card):
 			# The else case is handled automatically
 			pass
-	elif (original_object is Hand) and (global.mana >= card.mana_cost):
+	elif (global.mana >= card.mana_cost):
 		print('Added card from hand')
 		if fuser.add_card(card):
 			global.mana -= card.mana_cost
 			update_mana()
 			card.in_fuser()
-	elif original_object is Fuser:
-		print("Adding from other fuser (presumably)")
-		fuser.add_card(card)
+	else:
+		print("Whoops, I decided you need mana to move from fusers >:)")
+		#fuser.add_card(card)
 	
 		
 		# Let's check the 
@@ -246,4 +308,37 @@ func _on_button_4_pressed():
 
 
 func _on_button_5_pressed():
+	clear_play_area()
+
+
+func _on_button_6_pressed():
+	global.current_level = 0
+	load_level()
+
+
+func _on_button_7_pressed():
+	global.current_level = 1
+	load_level()
+
+
+func _on_end_turn_pressed():
 	end_turn()
+
+
+func _on_button_8_pressed():
+	global.current_level = 2
+	load_level()
+
+
+func _on_restart_pressed():
+	load_level()
+
+
+func _on_button_9_pressed():
+	global.current_level = 3
+	load_level()
+
+
+func _on_button_10_pressed():
+	global.current_level = 4
+	load_level()

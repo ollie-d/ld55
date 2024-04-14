@@ -1,6 +1,6 @@
 extends Node2D
 
-var DEBUG = true
+var DEBUG = false
 
 var card_being_held = false
 var card_being_hovered: Card = null
@@ -12,23 +12,57 @@ var hover_queue = []
 var mana_max = 4
 var mana = 4
 
+var current_level = 0
+var num_levels: int
+
+var levels = {
+	0: {'starting_resources':['fire','wood','water'], 'deposit':{'card_type':'paste', 'quantity':1}},
+	1: {'starting_resources':['imp'], 'deposit':{'card_type':'fire', 'quantity':3}},
+	2: {'starting_resources':['squid', 'fire', 'wood'], 'deposit':{'card_type':'ash', 'quantity':3}},
+	3: {'starting_resources':['newt', 'fire', 'fire', 'wood'], 'deposit':{'card_type':'imp', 'quantity':1}},
+	4: {'starting_resources':['newt','water', 'fire', 'fire', 'wood'], 'deposit':{'card_type':'imp', 'quantity':5}},
+	5: {'starting_resources':['fire', 'fire', 'wood', 'water', 'water', 'newt'], 'deposit':{'card_type':'demon', 'quantity':1}},
+}
+
 var interact_table = {
 	'fire': {'water': 'boiling_water', 'wood': 'ash', 'ash': 'imp', 'eye_of_newt': 'ash'},
 	'water': {'eye_of_newt': 'newt', 'wood': 'ent'},
 	'wood': {'fire': 'ash', 'water': 'ent'},
 	'ash': {'fire': 'imp', 'water': 'paste'},
-	'ent': {'fire': 'ash'},
-	'imp': {'paste': 'newt'},
-	'newt': {'wood': 'eye_of_newt'}
+	'ent': {'fire': 'ash', 'water': 'squid'},
+	'imp': {'paste': 'newt', 'water': 'squid'},
+	'newt': {'wood': 'eye_of_newt'},
+	'squid': {'wood': 'ent', 'fire': 'imp'},
 }
+
+var card_types = {}
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	card_types = {
+	'fire': {'card_type': 'fire', 'art': 'res://Assets/Cards/Symbols/fire.png', 'card_name': '[center]Fire[/center]', 'mana_cost': 1, 'tooltip': null},
+	'water': {'card_type': 'water', 'art': 'res://Assets/Cards/Symbols/water.png', 'card_name': '[center]Water[/center]', 'mana_cost': 1, 'tooltip': null},
+	'boiling_water': {'card_type': 'boiling_water', 'art': 'res://Assets/Cards/Symbols/boiling_water.png', 'card_name': '[shake][p][center]Boiling[/center][/p][p][center]Water[/center][/p][/shake]', 'mana_cost': 1, 'tooltip':tooltips.boiling_water},
+	'wood': {'card_type': 'wood', 'art': 'res://Assets/Cards/Symbols/wood.png', 'card_name': '[center]Wood[/center]', 'mana_cost': 1, 'tooltip':null},
+	'ash': {'card_type': 'ash', 'art': 'res://Assets/Cards/Symbols/ash.png', 'card_name': '[center]Ash[/center]', 'mana_cost': 1, 'tooltip':null},
+	'ent': {'card_type': 'ent', 'art': 'res://Assets/Cards/Symbols/ent.png', 'card_name': '[center]Ent[/center]', 'mana_cost': 1, 'tooltip':tooltips.ent},
+	'imp': {'card_type': 'imp', 'art': 'res://Assets/Cards/Symbols/imp.png', 'card_name': '[center][wave]Imp[/wave][/center]', 'mana_cost': 1, 'tooltip':tooltips.imp},
+	'newt': {'card_type': 'newt', 'art': 'res://Assets/Cards/Symbols/newt.png', 'card_name': '[center]Newt[/center]', 'mana_cost': 1, 'tooltip':tooltips.newt},
+	'eye_of_newt': {'card_type': 'eye_of_newt', 'art': 'res://Assets/Cards/Symbols/eye_of_newt.png', 'card_name': '[p][center]Eye of[/center][/p][p][center]Newt[/center][/p]', 'mana_cost': 1, 'tooltip':null},
+	'paste': {'card_type': 'paste', 'art': 'res://Assets/Cards/Symbols/paste.png', 'card_name': '[center]Paste[/center]', 'mana_cost': 1, 'tooltip':null},
+	'demon': {'card_type': 'demon', 'art': 'res://Assets/Cards/Symbols/demon.png', 'card_name': '[center]Demon[/center]', 'mana_cost': 2, 'tooltip':tooltips.demon},
+	'squid': {'card_type': 'squid', 'art': 'res://Assets/Cards/Symbols/squid.png', 'card_name': '[center]Squid[/center]', 'mana_cost': 2, 'tooltip':tooltips.squid},
+	}
+	
+	num_levels = len(levels.keys())
+	$hover_queue.z_index = 99
 	if DEBUG:
 		$hover_queue.visible = true
 	else:
 		$hover_queue.visible = false
+	
+	$Music.play()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -1,20 +1,20 @@
 [gd_scene load_steps=10 format=3 uid="uid://b2p3u2th2itps"]
 
 [ext_resource type="Script" path="res://Scripts/Cards/base_card.gd" id="1_04y7j"]
-[ext_resource type="Texture2D" uid="uid://l2hosuhg46k8" path="res://Assets/Cards/blank_card.png" id="1_tshap"]
 [ext_resource type="Texture2D" uid="uid://cdayd3h6j04ob" path="res://Assets/Cards/card_symbol_face.png" id="2_gbw3k"]
 [ext_resource type="Shader" path="res://Shaders/fuser.gdshader" id="2_molbd"]
 [ext_resource type="FontFile" uid="uid://cvppyanwmhfuq" path="res://Assets/Fonts/JinxedWizards.ttf" id="3_4egxv"]
+[ext_resource type="Texture2D" uid="uid://di8t2eudkt0ms" path="res://Assets/Cards/textured_card.png" id="3_sqlab"]
 [ext_resource type="Texture2D" uid="uid://chss3qy64rsum" path="res://Assets/Cards/card_x.png" id="4_4ck1j"]
-[ext_resource type="FontFile" uid="uid://bl8p2kairyiyn" path="res://Assets/Fonts/PixelByzantine.ttf" id="6_er0ku"]
+[ext_resource type="FontFile" uid="uid://bl8p2kairyiyn" path="res://Assets/Fonts/PixelByzantine_old.ttf" id="6_er0ku"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_up04s"]
 resource_local_to_scene = true
 shader = ExtResource("2_molbd")
-shader_parameter/color = Color(0, 0, 0, 1)
-shader_parameter/width = 2.0
+shader_parameter/color = Color(0.764706, 0.764706, 0.764706, 1)
+shader_parameter/width = 1.663
 shader_parameter/pattern = 0
-shader_parameter/inside = false
+shader_parameter/inside = true
 shader_parameter/add_margins = true
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t7r1r"]
@@ -26,7 +26,8 @@ script = ExtResource("1_04y7j")
 [node name="card" type="Sprite2D" parent="."]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_up04s")
-texture = ExtResource("1_tshap")
+position = Vector2(0, -10)
+texture = ExtResource("3_sqlab")
 
 [node name="card_name" type="RichTextLabel" parent="."]
 unique_name_in_owner = true
@@ -109,8 +110,8 @@ theme_override_fonts/normal_font = ExtResource("6_er0ku")
 theme_override_font_sizes/normal_font_size = 17
 bbcode_enabled = true
 text = "
-Adds [wave amp=10 freq=5][color=red]1 water[/color][/wave], 
-[wave amp=10 freq=5][color=red]1 fire[/color][/wave] and [wave amp=10 freq=5][color=red]1 wood[/color][/wave] to hand"
+
+Adds [wave amp=10 freq=5][color=red]water[/color][/wave] to all open [color=purple]fusers[/color]"
 scroll_active = false
 
 [node name="z" type="Label" parent="."]

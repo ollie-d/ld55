@@ -1,14 +1,15 @@
-[gd_scene load_steps=7 format=3 uid="uid://cnpc6hkiah3hu"]
+[gd_scene load_steps=8 format=3 uid="uid://cnpc6hkiah3hu"]
 
 [ext_resource type="Script" path="res://Scripts/deposit.gd" id="1_8v273"]
 [ext_resource type="Shader" path="res://Shaders/fuser.gdshader" id="2_6bnjf"]
-[ext_resource type="FontFile" uid="uid://bl8p2kairyiyn" path="res://Assets/Fonts/PixelByzantine.ttf" id="2_h3aww"]
+[ext_resource type="FontFile" uid="uid://bl8p2kairyiyn" path="res://Assets/Fonts/PixelByzantine_old.ttf" id="2_8jj18"]
 [ext_resource type="Texture2D" uid="uid://c8ccjwnpgm0kt" path="res://Assets/Cards/border_card.png" id="3_1mppw"]
+[ext_resource type="FontFile" uid="uid://cvppyanwmhfuq" path="res://Assets/Fonts/JinxedWizards.ttf" id="5_amiyj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_uk5p0"]
 shader = ExtResource("2_6bnjf")
-shader_parameter/color = Color(0.901961, 0.505882, 0.94902, 1)
-shader_parameter/width = 1.0
+shader_parameter/color = Color(0.494118, 0.521569, 0.133333, 1)
+shader_parameter/width = 1.947
 shader_parameter/pattern = 0
 shader_parameter/inside = false
 shader_parameter/add_margins = true
@@ -29,7 +30,7 @@ offset_bottom = -43.0
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.392157)
 theme_override_constants/shadow_offset_x = 3
 theme_override_constants/shadow_offset_y = 3
-theme_override_fonts/normal_font = ExtResource("2_h3aww")
+theme_override_fonts/normal_font = ExtResource("2_8jj18")
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "
@@ -49,3 +50,17 @@ offset_left = -50.0
 offset_top = -88.0
 offset_right = -10.0
 offset_bottom = -65.0
+
+[node name="card_type" type="RichTextLabel" parent="."]
+offset_left = -47.0
+offset_top = 84.0
+offset_right = 49.0
+offset_bottom = 124.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.392157)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/normal_font = ExtResource("5_amiyj")
+theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true
+text = "sugma"
+scroll_active = false

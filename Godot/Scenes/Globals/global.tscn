@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://byg81k0ejlse2"]
+[gd_scene load_steps=3 format=3 uid="uid://byg81k0ejlse2"]
 
 [ext_resource type="Script" path="res://Scripts/Globals/global.gd" id="1_ma3og"]
+[ext_resource type="AudioStream" uid="uid://cywdwaj86l6g7" path="res://Assets/Music/loopitis.wav" id="2_3qkfo"]
 
 [node name="Global" type="Node2D"]
 script = ExtResource("1_ma3og")
@@ -8,3 +9,7 @@ script = ExtResource("1_ma3og")
 [node name="hover_queue" type="Label" parent="."]
 offset_right = 304.0
 offset_bottom = 84.0
+text = "Hover Text"
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_3qkfo")

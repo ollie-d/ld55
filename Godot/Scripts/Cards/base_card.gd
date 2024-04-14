@@ -5,20 +5,6 @@ var art = null
 var card_name: String
 
 
-var card_types = {
-	'fire': {'card_type': 'fire', 'art': 'res://Assets/Cards/Symbols/fire.png', 'card_name': '[center]Fire[/center]', 'mana_cost': 1, 'tooltip': null},
-	'water': {'card_type': 'water', 'art': 'res://Assets/Cards/Symbols/water.png', 'card_name': '[center]Water[/center]', 'mana_cost': 1, 'tooltip': null},
-	'boiling_water': {'card_type': 'boiling_water', 'art': 'res://Assets/Cards/Symbols/boiling_water.png', 'card_name': '[shake][p][center]Boiling[/center][/p][p][center]Water[/center][/p][/shake]', 'mana_cost': 1, 'tooltip':tooltips.boiling_water},
-	'wood': {'card_type': 'wood', 'art': 'res://Assets/Cards/Symbols/wood.png', 'card_name': '[center]Wood[/center]', 'mana_cost': 1, 'tooltip':null},
-	'ash': {'card_type': 'ash', 'art': 'res://Assets/Cards/Symbols/ash.png', 'card_name': '[center]Ash[/center]', 'mana_cost': 1, 'tooltip':null},
-	'ent': {'card_type': 'ent', 'art': 'res://Assets/Cards/Symbols/ent.png', 'card_name': '[center]Ent[/center]', 'mana_cost': 1, 'tooltip':tooltips.ent},
-	'imp': {'card_type': 'imp', 'art': 'res://Assets/Cards/Symbols/imp.png', 'card_name': '[center][wave]Imp[/wave][/center]', 'mana_cost': 1, 'tooltip':tooltips.imp},
-	'newt': {'card_type': 'newt', 'art': 'res://Assets/Cards/Symbols/newt.png', 'card_name': '[center]Newt[/center]', 'mana_cost': 1, 'tooltip':tooltips.newt},
-	'eye_of_newt': {'card_type': 'eye_of_newt', 'art': 'res://Assets/Cards/Symbols/eye_of_newt.png', 'card_name': '[p][center]Eye of[/center][/p][p][center]Newt[/center][/p]', 'mana_cost': 1, 'tooltip':null},
-	'paste': {'card_type': 'paste', 'art': 'res://Assets/Cards/Symbols/paste.png', 'card_name': '[center]Paste[/center]', 'mana_cost': 1, 'tooltip':null},
-	'demon': {'card_type': 'demon', 'art': 'res://Assets/Cards/Symbols/demon.png', 'card_name': '[center]Demon[/center]', 'mana_cost': 2, 'tooltip':tooltips.demon},
-}
-
 var hovered = false
 var is_in_fuser = false
 var is_in_hand = false
@@ -70,13 +56,13 @@ func update_card():
 
 
 func set_card(card_type_: String):
-	assert(card_type_ in card_types.keys())
+	assert(card_type_ in global.card_types.keys())
 	
-	card_type = card_types[card_type_]['card_type']
-	art = card_types[card_type_]['art']
-	card_name = card_types[card_type_]['card_name']
-	mana_cost = card_types[card_type_]['mana_cost']
-	tooltip = card_types[card_type_]['tooltip']
+	card_type = global.card_types[card_type_]['card_type']
+	art = global.card_types[card_type_]['art']
+	card_name = global.card_types[card_type_]['card_name']
+	mana_cost = global.card_types[card_type_]['mana_cost']
+	tooltip = global.card_types[card_type_]['tooltip']
 	
 	update_card()
 
