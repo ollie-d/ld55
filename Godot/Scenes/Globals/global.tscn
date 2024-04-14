@@ -12,4 +12,7 @@ offset_bottom = 84.0
 text = "Hover Text"
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
+process_thread_group = 2
+process_thread_group_order = 0
+process_thread_messages = 0
 stream = ExtResource("2_3qkfo")

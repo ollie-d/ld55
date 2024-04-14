@@ -32,6 +32,17 @@ func _ready():
 		$Button9.visible = true
 		$Button10.visible = true
 	
+	if global.enable_mana:
+		%mana_label.visible = true
+		%mana_title.visible = true
+		%ManaZone.visible = true
+		%ManaZone/CollisionShape2D.disabled = false
+	else:
+		%mana_label.visible = false
+		%mana_title.visible = false
+		%ManaZone.visible = false
+		%ManaZone/CollisionShape2D.disabled = true
+	
 	# will move this later
 	load_level()
 
@@ -63,6 +74,12 @@ func load_level():
 	%deposit.update_card_label()
 	
 	%level.text = 'Level {x} / {y}'.format({'x':global.current_level+1, 'y':global.num_levels})
+	
+	global.turns_taken = 0
+	global.max_turns = global.levels[global.current_level]['max_turns']
+	update_turns()
+	
+	update_mana()
 
 
 func imp_action(fuser: Fuser):
@@ -168,12 +185,21 @@ func end_turn():
 	# Reset mana
 	global.mana = max(global.mana, global.mana_max)
 	update_mana()
+	
+	# Change turns
+	global.turns_taken += 1
+	update_turns()
+	
 	global.turn_ended = false
 	%end_turn.disabled = false
 
 
 func update_mana():
 	%mana_label.text = "{mana} / {max}".format({'mana':global.mana, 'max':global.mana_max})
+
+
+func update_turns():
+	%turns_label.text = "[center]{t}/{tmax}[/center]".format({'t':global.max_turns-global.turns_taken, 'tmax':global.max_turns})
 
 
 func create_card_in_hand(hand: Hand, card_type: String):

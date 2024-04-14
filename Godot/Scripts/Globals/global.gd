@@ -2,12 +2,18 @@ extends Node2D
 
 var DEBUG = false
 
+var enable_mana = false
+
 var card_being_held = false
 var card_being_hovered: Card = null
 
 var turn_ended = false
 
 var hover_queue = []
+
+# Have max turns?
+var turns_taken = 0
+var max_turns: int
 
 var mana_max = 4
 var mana = 4
@@ -16,12 +22,12 @@ var current_level = 0
 var num_levels: int
 
 var levels = {
-	0: {'starting_resources':['fire','wood','water'], 'deposit':{'card_type':'paste', 'quantity':1}},
-	1: {'starting_resources':['imp'], 'deposit':{'card_type':'fire', 'quantity':3}},
-	2: {'starting_resources':['squid', 'fire', 'wood'], 'deposit':{'card_type':'ash', 'quantity':3}},
-	3: {'starting_resources':['newt', 'fire', 'fire', 'wood'], 'deposit':{'card_type':'imp', 'quantity':1}},
-	4: {'starting_resources':['newt','water', 'fire', 'fire', 'wood'], 'deposit':{'card_type':'imp', 'quantity':5}},
-	5: {'starting_resources':['fire', 'fire', 'wood', 'water', 'water', 'newt'], 'deposit':{'card_type':'demon', 'quantity':1}},
+	0: {'starting_resources':['fire','wood','water'], 'deposit':{'card_type':'paste', 'quantity':1}, 'max_turns': 1},
+	1: {'starting_resources':['imp'], 'deposit':{'card_type':'fire', 'quantity':3}, 'max_turns': 3},
+	2: {'starting_resources':['squid', 'fire', 'wood'], 'deposit':{'card_type':'ash', 'quantity':3}, 'max_turns': 5},
+	3: {'starting_resources':['eye_of_newt', 'fire', 'fire'], 'deposit':{'card_type':'imp', 'quantity':1}, 'max_turns': 5},
+	4: {'starting_resources':['newt','water', 'fire', 'fire', 'wood'], 'deposit':{'card_type':'imp', 'quantity':5}, 'max_turns': 10},
+	5: {'starting_resources':['fire', 'fire', 'wood', 'water', 'water', 'newt'], 'deposit':{'card_type':'demon', 'quantity':1}, 'max_turns': 10},
 }
 
 var interact_table = {
@@ -54,6 +60,10 @@ func _ready():
 	'demon': {'card_type': 'demon', 'art': 'res://Assets/Cards/Symbols/demon.png', 'card_name': '[center]Demon[/center]', 'mana_cost': 2, 'tooltip':tooltips.demon},
 	'squid': {'card_type': 'squid', 'art': 'res://Assets/Cards/Symbols/squid.png', 'card_name': '[center]Squid[/center]', 'mana_cost': 2, 'tooltip':tooltips.squid},
 	}
+	
+	if !enable_mana:
+		for key in card_types.keys():
+			card_types[key]['mana_cost'] = 0
 	
 	num_levels = len(levels.keys())
 	$hover_queue.z_index = 99

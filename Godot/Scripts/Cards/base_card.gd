@@ -17,6 +17,7 @@ var fuser_ref: Fuser
 var hand_ref: Hand
 var position_modifier = Vector2(0.0, -0.0)
 var scale_modifier = Vector2(1.2, 1.2)
+var cursor_offset: Vector2
 
 var default_z = 1.0
 var original_position 
@@ -52,7 +53,10 @@ func update_card():
 	%card_name.text = card_name
 	if tooltip != null:
 		%tooltip_desc.text = tooltip
-	%cost.text = str(mana_cost)
+	if mana_cost != 0:
+		%cost.text = str(mana_cost)
+	else:
+		%cost.visible = false
 
 
 func set_card(card_type_: String):
@@ -67,45 +71,53 @@ func set_card(card_type_: String):
 	update_card()
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	if !being_destroyed:
-		if hovered and not being_dragged:
-			$ColorRect.color = Color(1.0, 1.0, 0.0)
-		elif is_over_fuser:
-			$ColorRect.color = Color(1.0, 0.0, 1.0)
-		elif being_dragged and is_over_hand:
-			$ColorRect.color = Color(0.0, 1.0, 1.0)
-		elif being_dragged:
-			$ColorRect.color = Color(0.0, 1.0, 0.0)
-		else:
-			$ColorRect.color = Color(1.0, 0.0, 0.0)
-			
-		if being_dragged:
-			self.position = get_viewport().get_mouse_position()
-		
-		
-		if being_dragged and is_over_hand and !is_in_hand:
-			$x.visible = true
-		elif being_dragged and is_over_mana and !is_in_hand:
-			$x.visible = true
-		elif being_dragged and is_over_fuser and fuser_ref.is_deposit and fuser_ref.deposit_type != self.card_type:
-			$x.visible = true
-		else:
-			$x.visible = false
-		
-		$z.text = str(self.z_index)
-
-
 func _physics_process(delta):
+	pass
+
+
+func _process(delta):
 	# Make sure card is never being hovered and dragged
 	if !being_destroyed:
+		
+		## Handle mouse inputs
+		#if Input.is_action_just_pressed("click") and (!global.turn_ended):
+			## Detect start of drag
+			#cursor_offset = get_global_mouse_position() - self.global_position
+			#if Input.is_action_pressed("click") and (hovered) and (not being_dragged):
+				#being_dragged = true
+				#global.card_being_held = true
+				#self.global_position = get_global_mouse_position() - cursor_offset
+			## Detect end of drag
+			#elif Input.is_action_just_released("click") and (being_dragged):
+				## Add logic to check if it's in a fuser OR being re-arranged in hand
+				#being_dragged = false
+				#global.card_being_held = false
+				#var tween = get_tree().create_tween()
+				#
+				#if is_over_fuser:
+					#emit_signal("card_placed_in_fuser", fuser_ref, self)
+				#elif is_over_hand and is_in_hand:
+					#emit_signal("card_placed_in_hand", hand_ref, self)
+				#elif is_over_mana and is_in_hand:
+					## Give player mana worth the card and destroy it
+					#global.mana += self.mana_cost
+					#emit_signal("mana_added")
+					#self.home_object.remove_card(self)
+					#self.destroy()
+				#else:
+					#print('return to original place')
+					#self.position = original_position + position_modifier
+		
+		
+		
 		if being_dragged:
 			hovered = false
 		
 		# Handle being placed over fuser or hand
 		var bodies = $Area2D.get_overlapping_bodies()
-		for body in bodies:
+		if len(bodies) > 0:
+			var body = bodies[-1]
+			#for body in bodies:
 			if body is Fuser:
 				is_over_fuser = true
 				fuser_ref = body
@@ -113,7 +125,7 @@ func _physics_process(delta):
 				is_over_hand = true
 				hand_ref = body
 			elif body is Mana:
-				is_over_mana = true
+					is_over_mana = true
 		
 		# Handle mouse being hovered over
 		if (not being_dragged) and (home_object != null):
@@ -137,6 +149,36 @@ func _physics_process(delta):
 			$tooltip.visible = false
 			self.z_index = 10
 			%card.material.set_shader_parameter("width", 0)
+	
+	# Debug-related stuff
+	if !being_destroyed:
+		if hovered and not being_dragged:
+			$ColorRect.color = Color(1.0, 1.0, 0.0)
+		elif is_over_fuser:
+			$ColorRect.color = Color(1.0, 0.0, 1.0)
+		elif being_dragged and is_over_hand:
+			$ColorRect.color = Color(0.0, 1.0, 1.0)
+		elif being_dragged:
+			$ColorRect.color = Color(0.0, 1.0, 0.0)
+		else:
+			$ColorRect.color = Color(1.0, 0.0, 0.0)
+			
+		if being_dragged:
+			#cursor_offset = get_global_mouse_position() - self.global_position
+			#self.global_position = get_global_mouse_position() - cursor_offset
+			self.position = get_viewport().get_mouse_position() - cursor_offset
+		
+		
+		if being_dragged and is_over_hand and !is_in_hand:
+			$x.visible = true
+		elif being_dragged and is_over_mana and !is_in_hand:
+			$x.visible = true
+		elif being_dragged and is_over_fuser and fuser_ref.is_deposit and fuser_ref.deposit_type != self.card_type:
+			$x.visible = true
+		else:
+			$x.visible = false
+		
+		$z.text = str(self.z_index)
 
 
 func destroy():
@@ -159,27 +201,29 @@ func _on_area_2d_mouse_exited():
 
 
 func _on_area_2d_input_event(viewport, event, shape_idx):
+	pass
 	if (event is InputEventMouseButton) and (!global.turn_ended):
 		# Detect start of drag
 		if (event.button_index == 1) and (event.pressed == true) and (hovered) and (not being_dragged):
 			being_dragged = true
 			global.card_being_held = true
+			cursor_offset = get_global_mouse_position() - self.global_position
 		# Detect end of drag
 		elif (event.button_index == 1) and (event.pressed == false) and (being_dragged):
 			# Add logic to check if it's in a fuser OR being re-arranged in hand
 			being_dragged = false
 			global.card_being_held = false
-			
 			if is_over_fuser:
 				emit_signal("card_placed_in_fuser", fuser_ref, self)
 			elif is_over_hand and is_in_hand:
 				emit_signal("card_placed_in_hand", hand_ref, self)
 			elif is_over_mana and is_in_hand:
 				# Give player mana worth the card and destroy it
-				global.mana += self.mana_cost
-				emit_signal("mana_added")
-				self.home_object.remove_card(self)
-				self.destroy()
+				if global.enable_mana:
+					global.mana += self.mana_cost
+					emit_signal("mana_added")
+					self.home_object.remove_card(self)
+					self.destroy()
 			else:
 				print('return to original place')
 				self.position = original_position + position_modifier

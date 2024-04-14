@@ -35,6 +35,7 @@ offset_left = -44.0
 offset_top = -60.0
 offset_right = 46.0
 offset_bottom = -14.0
+mouse_filter = 1
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_fonts/normal_font = ExtResource("3_4egxv")
 theme_override_font_sizes/normal_font_size = 22
@@ -49,18 +50,12 @@ unique_name_in_owner = true
 position = Vector2(0, 14)
 texture = ExtResource("2_gbw3k")
 
-[node name="Area2D" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-process_mode = 3
-position = Vector2(-0.5, -0.5)
-shape = SubResource("RectangleShape2D_t7r1r")
-
 [node name="ColorRect" type="ColorRect" parent="."]
 offset_left = 25.0
 offset_top = -26.0
 offset_right = 43.0
 offset_bottom = -12.0
+mouse_filter = 1
 color = Color(1, 0, 0, 1)
 
 [node name="x" type="Sprite2D" parent="."]
@@ -88,6 +83,7 @@ offset_left = -177.0
 offset_top = -51.0
 offset_right = -25.0
 offset_bottom = 48.0
+mouse_filter = 1
 
 [node name="title" type="Label" parent="tooltip"]
 offset_left = -139.0
@@ -122,6 +118,13 @@ offset_right = 3.0
 offset_bottom = 59.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "z"
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+process_mode = 3
+position = Vector2(-0.5, -0.5)
+shape = SubResource("RectangleShape2D_t7r1r")
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
