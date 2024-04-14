@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://c1s58wpw6vw7b"]
+[gd_scene load_steps=17 format=3 uid="uid://c1s58wpw6vw7b"]
 
 [ext_resource type="PackedScene" uid="uid://bn3bc0f3yocbf" path="res://Scenes/fuser.tscn" id="1_mlna0"]
 [ext_resource type="Script" path="res://Scripts/play_area.gd" id="1_pn6m7"]
@@ -11,6 +11,7 @@
 [ext_resource type="FontFile" uid="uid://bl8p2kairyiyn" path="res://Assets/Fonts/PixelByzantine_old.ttf" id="8_pd3md"]
 [ext_resource type="FontFile" uid="uid://cligw5pqnisrc" path="res://Assets/Fonts/PixelByzantine_Edited.ttf" id="8_vro1s"]
 [ext_resource type="Shader" path="res://Shaders/cloud.gdshader" id="11_smyx4"]
+[ext_resource type="FontFile" uid="uid://5jyr46vusbmc" path="res://Assets/Cards/PixelByzantine_2.ttf" id="12_f2alh"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ta1x6"]
 shader = ExtResource("2_70ihb")
@@ -217,10 +218,10 @@ text = "End
 unique_name_in_owner = true
 offset_left = 17.0
 offset_top = 15.0
-offset_right = 214.0
-offset_bottom = 155.0
+offset_right = 172.0
+offset_bottom = 159.0
 theme_override_fonts/font = ExtResource("8_pd3md")
-theme_override_font_sizes/font_size = 48
+theme_override_font_sizes/font_size = 36
 text = "restart"
 
 [node name="deposit" parent="." instance=ExtResource("5_6mqob")]
@@ -300,6 +301,78 @@ vertical_alignment = 1
 [node name="AudioListener2D" type="AudioListener2D" parent="."]
 position = Vector2(583, 320)
 current = true
+
+[node name="tut_text0" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+visible = false
+offset_left = 222.0
+offset_top = 80.0
+offset_right = 946.0
+offset_bottom = 235.0
+theme_override_fonts/normal_font = ExtResource("12_f2alh")
+theme_override_font_sizes/normal_font_size = 64
+bbcode_enabled = true
+text = "[center][shake level=2 rate=2]Drag cards into[/shake] [color=purple]fuser[/color][shake level=2 rate=2] to summon new cards[/shake][/center]"
+
+[node name="tut_text1" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+visible = false
+offset_left = 221.0
+offset_top = 33.0
+offset_right = 945.0
+offset_bottom = 238.0
+theme_override_fonts/normal_font = ExtResource("12_f2alh")
+theme_override_font_sizes/normal_font_size = 64
+bbcode_enabled = true
+text = "[center][shake level=2 rate=2]Hover over [color=#880015]special cards[/color] to read their effects[/shake][/center]"
+
+[node name="tut_text2" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+visible = false
+offset_left = 221.0
+offset_top = 71.0
+offset_right = 945.0
+offset_bottom = 276.0
+theme_override_fonts/normal_font = ExtResource("12_f2alh")
+theme_override_font_sizes/normal_font_size = 64
+bbcode_enabled = true
+text = "[center][shake level=2 rate=2]Effects only take place once you end your turn[/shake][/center]"
+
+[node name="tut_text3" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+visible = false
+offset_left = 221.0
+offset_top = 35.0
+offset_right = 945.0
+offset_bottom = 240.0
+theme_override_fonts/normal_font = ExtResource("12_f2alh")
+theme_override_font_sizes/normal_font_size = 64
+bbcode_enabled = true
+text = "[center][shake level=2 rate=2]Complete the requirements before your turns run out[/shake][/center]"
+
+[node name="tut_text4" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+visible = false
+offset_left = 221.0
+offset_top = 43.0
+offset_right = 945.0
+offset_bottom = 248.0
+theme_override_fonts/normal_font = ExtResource("12_f2alh")
+theme_override_font_sizes/normal_font_size = 64
+bbcode_enabled = true
+text = "[center][shake level=2 rate=2]The ent and the imp form an effective ash factory[/shake][/center]"
+
+[node name="tut_text5" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+visible = false
+offset_left = 221.0
+offset_top = 40.0
+offset_right = 945.0
+offset_bottom = 245.0
+theme_override_fonts/normal_font = ExtResource("12_f2alh")
+theme_override_font_sizes/normal_font_size = 64
+bbcode_enabled = true
+text = "[center][shake level=2 rate=2]Play around with combination, summoning is a creative process[/shake][/center]"
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]

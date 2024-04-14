@@ -8,6 +8,7 @@ var tornado_r = 4.0
 var deposit_type = 'fire'
 
 signal level_complete
+signal valid_deposit
 
 func _init():
 	is_deposit = true # godot pls let me ignore errors when you're wrong :(
@@ -58,6 +59,8 @@ func check_deposit(card: Card):
 		print("got a valid deposit")
 		play_deposit_sound()
 		deposits_left -= 1
+		print('emitting valid deposit')
+		emit_signal("valid_deposit")
 		update_text()
 		
 		# Remove card from hand/fuser

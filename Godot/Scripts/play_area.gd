@@ -3,6 +3,8 @@ extends Node2D
 # keep track of all valid fusers in play area
 var fusers = []
 
+signal card_created
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	fusers.append($Fuser)
@@ -47,6 +49,18 @@ func _ready():
 	load_level()
 
 
+func add_all_fusers():
+	fusers = []
+	fusers.append($Fuser)
+	fusers.append($Fuser2)
+	fusers.append($Fuser3)
+	fusers.append($Fuser4)
+	fusers.append($Fuser5)
+	
+	for fuser in fusers:
+		fuser.visible = true
+
+
 func clear_play_area():
 	# Remove all cards from fusers and hand
 	global.mana = global.mana_max
@@ -62,6 +76,16 @@ func clear_play_area():
 func _process(delta):
 	pass
 
+func toggle_main_ui_visibility(state: bool):
+	# Toggles the state of all of the important UI elements
+	toggle_turns_visibility(state)
+	%deposit.visible = state
+	%end_turn.visible = state
+	%restart.visible = state
+
+func toggle_turns_visibility(state: bool):
+	$turns_label.visible = state
+	$turns_title.visible = state
 
 func load_level():
 	clear_play_area()
@@ -78,8 +102,98 @@ func load_level():
 	global.turns_taken = 0
 	global.max_turns = global.levels[global.current_level]['max_turns']
 	update_turns()
-	
 	update_mana()
+	
+	# Hide all tutorial stuff by default
+	%tut_text0.visible = false
+	%tut_text1.visible = false
+	%tut_text2.visible = false
+	%tut_text3.visible = false
+	%tut_text4.visible = false
+	%tut_text5.visible = false
+	%deposit.hide_tutorial()
+	
+	# Handle tutorial levels
+	if global.current_level == 0:
+		# Hide UI elements
+		%tut_text0.visible = true
+		toggle_main_ui_visibility(false)
+		
+		# Only keep center fuser
+		for fuser in fusers:
+			fuser.visible = false
+		fusers = [$Fuser3]
+		$Fuser3.visible = true
+		
+		await $Fuser3.create_card_in_fuser
+		
+		%tut_text0.visible = false
+		%deposit.show_tutorial()
+		%deposit.visible = true
+		
+		await %deposit.level_complete
+		%deposit.hide_tutorial()
+	
+	elif global.current_level == 1:
+		toggle_main_ui_visibility(false)
+		%tut_text1.visible = true
+		%deposit.visible = true
+		for fuser in fusers:
+			fuser.visible = false
+		fusers = [$Fuser2, $Fuser3, $Fuser4]
+		for fuser in fusers:
+			fuser.visible = true
+		create_card_in_fuser($Fuser3, 'imp')
+		
+		$Fuser3.child.locked_in_place = true
+		
+		await $Fuser3.child.card_hovered
+		
+		%tut_text1.visible = false
+		%end_turn.visible = true
+		%tut_text2.visible =true
+		
+		await self.card_created
+		%tut_text2.visible = false
+		%deposit.show_tutorial()
+		
+		await %deposit.valid_deposit
+		
+		%deposit.hide_tutorial()
+		%tut_text3.visible = true
+		
+		toggle_turns_visibility(true)
+		
+		await %deposit.level_complete
+		%tut_text3.visible = false
+		
+	elif global.current_level == 2:
+		toggle_main_ui_visibility(true)
+		%restart.visible = false
+		for fuser in fusers:
+			fuser.visible = false
+		fusers = [$Fuser2, $Fuser3, $Fuser4]
+		for fuser in fusers:
+			fuser.visible = true
+		
+		create_card_in_fuser($Fuser2, 'imp')
+		create_card_in_fuser($Fuser4, 'ent')
+		
+		$Fuser2.child.locked_in_place = true
+		$Fuser4.child.locked_in_place = true
+		
+		%tut_text4.visible = true
+	
+	elif global.current_level == 3:
+		%tut_text4.visible = false
+		%tut_text5.visible = true
+		%restart.visible = true
+		
+		await self.card_created
+		%tut_text5.visible = false
+		
+	else:
+		add_all_fusers()
 
 
 func reset_level():
@@ -175,16 +289,17 @@ func end_turn():
 		# If fuser is not empty, have child perform action
 		if fuser.child != null:
 			fuser.play_activated_sound()
-			if i == 0:
+			if i == 0 and len(fusers) >= 2:
 				perform_action(null, fuser, fusers[i+1])
-			elif i == len(fusers)-1:
+			elif (i == len(fusers)-1) and (len(fusers) >= 2):
 				perform_action(fusers[i-1], fuser, null)
 			else:
-				perform_action(fusers[i-1], fuser, fusers[i+1])
+				if len(fusers) >= 3:
+					perform_action(fusers[i-1], fuser, fusers[i+1])
 		
 		var timer = Timer.new()
 		add_child(timer)
-		timer.wait_time = 0.250
+		timer.wait_time = 0.3
 		timer.one_shot = true
 		timer.start()
 		await timer.timeout
@@ -246,6 +361,7 @@ func create_card(card_type: String, hand: Hand = null, fuser: Fuser = null):
 			card.destroy()
 	elif fuser != null and hand == null:
 		if fuser.add_card(card):
+			emit_signal("card_created")
 			card.in_fuser()
 			card.home_object = fuser
 		else:
@@ -253,6 +369,7 @@ func create_card(card_type: String, hand: Hand = null, fuser: Fuser = null):
 		pass
 	elif fuser == null and hand != null:
 		hand.add_card(card)
+		emit_signal("card_created")
 		card.in_hand()
 		
 

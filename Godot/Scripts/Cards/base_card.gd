@@ -22,6 +22,8 @@ var cursor_offset: Vector2
 var default_z = 1.0
 var original_position 
 
+var locked_in_place = false
+
 var being_destroyed = false
 
 var home_object
@@ -31,9 +33,11 @@ var tooltip = null
 signal card_placed_in_fuser
 signal card_placed_in_hand
 signal mana_added
+signal card_hovered
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	%tooltip.visible = false
 	if global.DEBUG:
 		$ColorRect.visible = true
 		$z.visible = true
@@ -193,6 +197,7 @@ func play_hover_sound():
 	r.randomize()
 	%hover_sound.pitch_scale = r.randf_range(0.9, 1.2)
 	%hover_sound.play()
+	emit_signal("card_hovered")
 
 
 func _on_area_2d_mouse_entered():
@@ -210,7 +215,7 @@ func _on_area_2d_mouse_exited():
 
 func _on_area_2d_input_event(viewport, event, shape_idx):
 	pass
-	if (event is InputEventMouseButton) and (!global.turn_ended):
+	if (event is InputEventMouseButton) and (!global.turn_ended) and (!locked_in_place):
 		# Detect start of drag
 		if (event.button_index == 1) and (event.pressed == true) and (hovered) and (not being_dragged):
 			being_dragged = true

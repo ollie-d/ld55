@@ -20,6 +20,11 @@ func _process(delta):
 		$Label.text = str(child.card_type)
 	else:
 		$Label.text = 'null'
+	
+	if global.current_level < 2:
+		%hint_text.visible = true
+	else:
+		%hint_text.visible = false
 
 
 func add_card(card: Card) -> bool:

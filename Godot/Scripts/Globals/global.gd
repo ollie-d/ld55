@@ -22,13 +22,14 @@ var current_level = 0
 var num_levels: int
 
 var levels = {
-	0: {'starting_resources':['fire','wood'], 'deposit':{'card_type':'paste', 'quantity':1}, 'max_turns': 1},
-	1: {'starting_resources':['fire','wood','water'], 'deposit':{'card_type':'paste', 'quantity':1}, 'max_turns': 1},
-	2: {'starting_resources':['imp'], 'deposit':{'card_type':'fire', 'quantity':3}, 'max_turns': 3},
-	3: {'starting_resources':['squid', 'fire', 'wood'], 'deposit':{'card_type':'ash', 'quantity':3}, 'max_turns': 5},
-	4: {'starting_resources':['eye_of_newt', 'fire', 'fire'], 'deposit':{'card_type':'imp', 'quantity':1}, 'max_turns': 5},
-	5: {'starting_resources':['newt','water', 'fire', 'fire', 'wood'], 'deposit':{'card_type':'imp', 'quantity':5}, 'max_turns': 10},
-	6: {'starting_resources':['fire', 'fire', 'wood', 'water', 'water', 'newt'], 'deposit':{'card_type':'demon', 'quantity':1}, 'max_turns': 10},
+	0: {'starting_resources':['fire','wood'], 'deposit':{'card_type':'ash', 'quantity':1}, 'max_turns': 1},
+	1: {'starting_resources':[], 'deposit':{'card_type':'fire', 'quantity':3}, 'max_turns': 3},
+	2: {'starting_resources':[], 'deposit':{'card_type':'ash', 'quantity':1}, 'max_turns': 2},
+	3: {'starting_resources':['fire','wood','water'], 'deposit':{'card_type':'paste', 'quantity':1}, 'max_turns': 3},
+	4: {'starting_resources':['squid', 'fire', 'wood'], 'deposit':{'card_type':'ash', 'quantity':3}, 'max_turns': 5},
+	5: {'starting_resources':['eye_of_newt', 'fire', 'fire'], 'deposit':{'card_type':'imp', 'quantity':1}, 'max_turns': 5},
+	6: {'starting_resources':['newt','water', 'fire', 'fire', 'wood'], 'deposit':{'card_type':'imp', 'quantity':5}, 'max_turns': 10},
+	7: {'starting_resources':['fire', 'fire', 'wood', 'water', 'water', 'newt'], 'deposit':{'card_type':'demon', 'quantity':1}, 'max_turns': 10},
 }
 
 var interact_table = {
@@ -50,16 +51,16 @@ func _ready():
 	card_types = {
 	'fire': {'card_type': 'fire', 'art': 'res://Assets/Cards/Symbols/fire.png', 'card_name': '[center]Fire[/center]', 'mana_cost': 1, 'tooltip': null},
 	'water': {'card_type': 'water', 'art': 'res://Assets/Cards/Symbols/water.png', 'card_name': '[center]Water[/center]', 'mana_cost': 1, 'tooltip': null},
-	'boiling_water': {'card_type': 'boiling_water', 'art': 'res://Assets/Cards/Symbols/boiling_water.png', 'card_name': '[shake][p][center]Boiling[/center][/p][p][center]Water[/center][/p][/shake]', 'mana_cost': 1, 'tooltip':tooltips.boiling_water},
+	'boiling_water': {'card_type': 'boiling_water', 'art': 'res://Assets/Cards/Symbols/boiling_water.png', 'card_name': '[shake][p][center][color=#880015]Boiling[/color][/center][/p][p][center][color=#880015]Water[/color][/center][/p][/shake]', 'mana_cost': 1, 'tooltip':tooltips.boiling_water},
 	'wood': {'card_type': 'wood', 'art': 'res://Assets/Cards/Symbols/wood.png', 'card_name': '[center]Wood[/center]', 'mana_cost': 1, 'tooltip':null},
 	'ash': {'card_type': 'ash', 'art': 'res://Assets/Cards/Symbols/ash.png', 'card_name': '[center]Ash[/center]', 'mana_cost': 1, 'tooltip':null},
-	'ent': {'card_type': 'ent', 'art': 'res://Assets/Cards/Symbols/ent.png', 'card_name': '[center][wave]Ent[/wave][/center]', 'mana_cost': 1, 'tooltip':tooltips.ent},
-	'imp': {'card_type': 'imp', 'art': 'res://Assets/Cards/Symbols/imp.png', 'card_name': '[center][wave]Imp[/wave][/center]', 'mana_cost': 1, 'tooltip':tooltips.imp},
-	'newt': {'card_type': 'newt', 'art': 'res://Assets/Cards/Symbols/newt.png', 'card_name': '[center][wave]Newt[/wave][/center]', 'mana_cost': 1, 'tooltip':tooltips.newt},
+	'ent': {'card_type': 'ent', 'art': 'res://Assets/Cards/Symbols/ent.png', 'card_name': '[center][wave][color=#880015]Ent[/color][/wave][/center]', 'mana_cost': 1, 'tooltip':tooltips.ent},
+	'imp': {'card_type': 'imp', 'art': 'res://Assets/Cards/Symbols/imp.png', 'card_name': '[center][wave][color=#880015]Imp[/color][/wave][/center]', 'mana_cost': 1, 'tooltip':tooltips.imp},
+	'newt': {'card_type': 'newt', 'art': 'res://Assets/Cards/Symbols/newt.png', 'card_name': '[center][wave][color=#880015]Newt[/color][/wave][/center]', 'mana_cost': 1, 'tooltip':tooltips.newt},
 	'eye_of_newt': {'card_type': 'eye_of_newt', 'art': 'res://Assets/Cards/Symbols/eye_of_newt.png', 'card_name': '[p][center]Eye of[/center][/p][p][center]Newt[/center][/p]', 'mana_cost': 1, 'tooltip':null},
 	'paste': {'card_type': 'paste', 'art': 'res://Assets/Cards/Symbols/paste.png', 'card_name': '[center]Paste[/center]', 'mana_cost': 1, 'tooltip':null},
-	'demon': {'card_type': 'demon', 'art': 'res://Assets/Cards/Symbols/demon.png', 'card_name': '[center][wave]Demon[/wave][/center]', 'mana_cost': 2, 'tooltip':tooltips.demon},
-	'squid': {'card_type': 'squid', 'art': 'res://Assets/Cards/Symbols/squid.png', 'card_name': '[center][wave]Squid[/wave][/center]', 'mana_cost': 2, 'tooltip':tooltips.squid},
+	'demon': {'card_type': 'demon', 'art': 'res://Assets/Cards/Symbols/demon.png', 'card_name': '[center][wave][color=#880015]Demon[/color][/wave][/center]', 'mana_cost': 2, 'tooltip':tooltips.demon},
+	'squid': {'card_type': 'squid', 'art': 'res://Assets/Cards/Symbols/squid.png', 'card_name': '[center][wave][color=#880015]Squid[/color][/wave][/center]', 'mana_cost': 2, 'tooltip':tooltips.squid},
 	}
 	
 	if !enable_mana:
