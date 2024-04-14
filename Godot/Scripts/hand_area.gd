@@ -42,6 +42,9 @@ func add_card(card):
             card.set_home(self)
             card.z_index = card.default_z
             return true
+    else:
+        print('Hand full')
+        card.destroy()
     return false
 
 

@@ -38,7 +38,7 @@ theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_fonts/normal_font = ExtResource("3_4egxv")
 theme_override_font_sizes/normal_font_size = 22
 bbcode_enabled = true
-text = "[p][center]Boiling[/center][/p][p][center]Water[/center][/p]"
+text = "[shake][p][center]Boiling[/center][/p][p][center]Water[/center][/p][/shake]"
 fit_content = true
 scroll_active = false
 autowrap_mode = 0
@@ -100,16 +100,18 @@ text = "Effect"
 
 [node name="tooltip_desc" type="RichTextLabel" parent="tooltip"]
 unique_name_in_owner = true
-offset_left = -173.0
-offset_top = -50.0
-offset_right = -26.0
-offset_bottom = 54.0
+offset_left = -174.0
+offset_top = -48.0
+offset_right = -24.0
+offset_bottom = 62.0
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_fonts/normal_font = ExtResource("6_er0ku")
+theme_override_font_sizes/normal_font_size = 17
 bbcode_enabled = true
 text = "
-turn start:
-If possible, Create [wave amp=10 freq=5][color=red]1 fire[/color][/wave] in [color=green]fuser[/color] to the right of card"
+Adds [wave amp=10 freq=5][color=red]1 water[/color][/wave], 
+[wave amp=10 freq=5][color=red]1 fire[/color][/wave] and [wave amp=10 freq=5][color=red]1 wood[/color][/wave] to hand"
+scroll_active = false
 
 [node name="z" type="Label" parent="."]
 unique_name_in_owner = true

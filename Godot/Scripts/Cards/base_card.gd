@@ -8,14 +8,15 @@ var card_name: String
 var card_types = {
 	'fire': {'card_type': 'fire', 'art': 'res://Assets/Cards/Symbols/fire.png', 'card_name': '[center]Fire[/center]', 'mana_cost': 1, 'tooltip': null},
 	'water': {'card_type': 'water', 'art': 'res://Assets/Cards/Symbols/water.png', 'card_name': '[center]Water[/center]', 'mana_cost': 1, 'tooltip': null},
-	'boiling_water': {'card_type': 'boiling_water', 'art': 'res://Assets/Cards/Symbols/boiling_water.png', 'card_name': '[p][center]Boiling[/center][/p][p][center]Water[/center][/p]', 'mana_cost': 1, 'tooltip':null},
+	'boiling_water': {'card_type': 'boiling_water', 'art': 'res://Assets/Cards/Symbols/boiling_water.png', 'card_name': '[shake][p][center]Boiling[/center][/p][p][center]Water[/center][/p][/shake]', 'mana_cost': 1, 'tooltip':tooltips.boiling_water},
 	'wood': {'card_type': 'wood', 'art': 'res://Assets/Cards/Symbols/wood.png', 'card_name': '[center]Wood[/center]', 'mana_cost': 1, 'tooltip':null},
 	'ash': {'card_type': 'ash', 'art': 'res://Assets/Cards/Symbols/ash.png', 'card_name': '[center]Ash[/center]', 'mana_cost': 1, 'tooltip':null},
-	'ent': {'card_type': 'ent', 'art': 'res://Assets/Cards/Symbols/ent.png', 'card_name': '[center]Ent[/center]', 'mana_cost': 1, 'tooltip':null},
-	'imp': {'card_type': 'imp', 'art': 'res://Assets/Cards/Symbols/imp.png', 'card_name': '[center]Imp[/center]', 'mana_cost': 1, 'tooltip':tooltips.imp},
-	'newt': {'card_type': 'newt', 'art': 'res://Assets/Cards/Symbols/newt.png', 'card_name': '[center]Newt[/center]', 'mana_cost': 1, 'tooltip':null},
+	'ent': {'card_type': 'ent', 'art': 'res://Assets/Cards/Symbols/ent.png', 'card_name': '[center]Ent[/center]', 'mana_cost': 1, 'tooltip':tooltips.ent},
+	'imp': {'card_type': 'imp', 'art': 'res://Assets/Cards/Symbols/imp.png', 'card_name': '[center][wave]Imp[/wave][/center]', 'mana_cost': 1, 'tooltip':tooltips.imp},
+	'newt': {'card_type': 'newt', 'art': 'res://Assets/Cards/Symbols/newt.png', 'card_name': '[center]Newt[/center]', 'mana_cost': 1, 'tooltip':tooltips.newt},
 	'eye_of_newt': {'card_type': 'eye_of_newt', 'art': 'res://Assets/Cards/Symbols/eye_of_newt.png', 'card_name': '[p][center]Eye of[/center][/p][p][center]Newt[/center][/p]', 'mana_cost': 1, 'tooltip':null},
 	'paste': {'card_type': 'paste', 'art': 'res://Assets/Cards/Symbols/paste.png', 'card_name': '[center]Paste[/center]', 'mana_cost': 1, 'tooltip':null},
+	'demon': {'card_type': 'demon', 'art': 'res://Assets/Cards/Symbols/demon.png', 'card_name': '[center]Demon[/center]', 'mana_cost': 2, 'tooltip':tooltips.demon},
 }
 
 var hovered = false
@@ -24,6 +25,7 @@ var is_in_hand = false
 var is_over_hand = false
 var being_dragged = false
 var is_over_fuser = false
+var is_over_mana = false
 var mana_cost = 1
 var fuser_ref: Fuser
 var hand_ref: Hand
@@ -41,6 +43,7 @@ var tooltip = null
 
 signal card_placed_in_fuser
 signal card_placed_in_hand
+signal mana_added
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -63,6 +66,7 @@ func update_card():
 	%card_name.text = card_name
 	if tooltip != null:
 		%tooltip_desc.text = tooltip
+	%cost.text = str(mana_cost)
 
 
 func set_card(card_type_: String):
@@ -97,6 +101,10 @@ func _process(delta):
 		
 		if being_dragged and is_over_hand and !is_in_hand:
 			$x.visible = true
+		elif being_dragged and is_over_mana and !is_in_hand:
+			$x.visible = true
+		elif being_dragged and is_over_fuser and fuser_ref.is_deposit and fuser_ref.deposit_type != self.card_type:
+			$x.visible = true
 		else:
 			$x.visible = false
 		
@@ -118,9 +126,11 @@ func _physics_process(delta):
 			elif body is Hand:
 				is_over_hand = true
 				hand_ref = body
+			elif body is Mana:
+				is_over_mana = true
 		
 		# Handle mouse being hovered over
-		if not being_dragged:
+		if (not being_dragged) and (home_object != null):
 			var hover_check_failed = true
 			if len(global.hover_queue) > 0:
 				if self == global.hover_queue[0]:
@@ -163,7 +173,7 @@ func _on_area_2d_mouse_exited():
 
 
 func _on_area_2d_input_event(viewport, event, shape_idx):
-	if event is InputEventMouseButton:
+	if (event is InputEventMouseButton) and (!global.turn_ended):
 		# Detect start of drag
 		if (event.button_index == 1) and (event.pressed == true) and (hovered) and (not being_dragged):
 			being_dragged = true
@@ -178,6 +188,12 @@ func _on_area_2d_input_event(viewport, event, shape_idx):
 				emit_signal("card_placed_in_fuser", fuser_ref, self)
 			elif is_over_hand and is_in_hand:
 				emit_signal("card_placed_in_hand", hand_ref, self)
+			elif is_over_mana and is_in_hand:
+				# Give player mana worth the card and destroy it
+				global.mana += self.mana_cost
+				emit_signal("mana_added")
+				self.home_object.remove_card(self)
+				self.destroy()
 			else:
 				print('return to original place')
 				self.position = original_position + position_modifier
@@ -203,3 +219,5 @@ func _on_area_2d_body_exited(body):
 		is_over_fuser = false
 	elif body is Hand:
 		is_over_hand = false
+	elif body is Mana:
+		is_over_mana = false

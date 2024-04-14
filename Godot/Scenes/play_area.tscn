@@ -1,22 +1,30 @@
-[gd_scene load_steps=6 format=3 uid="uid://c1s58wpw6vw7b"]
+[gd_scene load_steps=8 format=3 uid="uid://c1s58wpw6vw7b"]
 
 [ext_resource type="PackedScene" uid="uid://bn3bc0f3yocbf" path="res://Scenes/fuser.tscn" id="1_mlna0"]
 [ext_resource type="Script" path="res://Scripts/play_area.gd" id="1_pn6m7"]
 [ext_resource type="PackedScene" uid="uid://c6nyhkhw1uomw" path="res://Scenes/hand_area.tscn" id="3_ku3sd"]
 [ext_resource type="FontFile" uid="uid://bl8p2kairyiyn" path="res://Assets/Fonts/PixelByzantine.ttf" id="4_a4mum"]
+[ext_resource type="PackedScene" uid="uid://cmtlj03gdmmj1" path="res://Scenes/mana_zone.tscn" id="4_l4hcc"]
 [ext_resource type="PackedScene" uid="uid://cnpc6hkiah3hu" path="res://Scenes/deposit.tscn" id="5_6mqob"]
+[ext_resource type="Texture2D" uid="uid://oi1ey0n5thyv" path="res://Assets/Cards/Symbols/arrow.png" id="6_kp7c1"]
 
 [node name="PlayArea" type="Node2D"]
 script = ExtResource("1_pn6m7")
 
 [node name="Fuser" parent="." instance=ExtResource("1_mlna0")]
-position = Vector2(406, 291)
+position = Vector2(357, 315)
 
 [node name="Fuser2" parent="." instance=ExtResource("1_mlna0")]
-position = Vector2(573, 292)
+position = Vector2(478, 315)
 
 [node name="Fuser3" parent="." instance=ExtResource("1_mlna0")]
-position = Vector2(750, 293)
+position = Vector2(599, 315)
+
+[node name="Fuser4" parent="." instance=ExtResource("1_mlna0")]
+position = Vector2(720, 315)
+
+[node name="Fuser5" parent="." instance=ExtResource("1_mlna0")]
+position = Vector2(841, 315)
 
 [node name="hand" parent="." instance=ExtResource("3_ku3sd")]
 unique_name_in_owner = true
@@ -61,14 +69,21 @@ offset_right = 146.0
 offset_bottom = 338.0
 text = "Create"
 
+[node name="ManaZone" parent="." instance=ExtResource("4_l4hcc")]
+position = Vector2(21, 474)
+
+[node name="CollisionShape2D" parent="ManaZone" index="0"]
+position = Vector2(79, 51)
+
 [node name="mana_label" type="RichTextLabel" parent="."]
 unique_name_in_owner = true
 offset_left = 35.0
 offset_top = 501.0
 offset_right = 193.0
 offset_bottom = 596.0
-theme_override_colors/font_outline_color = Color(0, 0, 0, 0.313726)
-theme_override_constants/outline_size = 10
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.392157)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
 theme_override_fonts/normal_font = ExtResource("4_a4mum")
 theme_override_font_sizes/normal_font_size = 60
 text = "4 / 4"
@@ -86,7 +101,8 @@ theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=5.0 freq=3]Mana[/wave]"
 
-[node name="Button5" type="Button" parent="."]
+[node name="end_turn" type="Button" parent="."]
+unique_name_in_owner = true
 offset_left = 977.0
 offset_top = 467.0
 offset_right = 1123.0
@@ -96,10 +112,20 @@ theme_override_font_sizes/font_size = 48
 text = "End
  Turn"
 
-[node name="Fuser4" parent="." instance=ExtResource("5_6mqob")]
+[node name="deposit" parent="." instance=ExtResource("5_6mqob")]
 position = Vector2(1072, 130)
+
+[node name="arrow" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+visible = false
+modulate = Color(0.266667, 0.67451, 0.490196, 1)
+position = Vector2(406, 290)
+texture = ExtResource("6_kp7c1")
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
 [connection signal="pressed" from="Button3" to="." method="_on_button_3_pressed"]
 [connection signal="pressed" from="Button4" to="." method="_on_button_4_pressed"]
+[connection signal="pressed" from="end_turn" to="." method="_on_button_5_pressed"]
+
+[editable path="ManaZone"]

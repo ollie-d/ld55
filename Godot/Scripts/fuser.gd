@@ -24,11 +24,11 @@ func _process(delta):
 
 func add_card(card: Card) -> bool:
 	if child == card:
-		print('Child IS card')
+		#print('Child IS card')
 		card.position = self.position
 		card.original_position = self.position
 	elif child == null:
-		print('Child is null')
+		#print('Child is null')
 		child = card
 		card.position = self.position
 		card.original_position = self.position
@@ -39,7 +39,7 @@ func add_card(card: Card) -> bool:
 			card.set_home(self)
 		return true
 	else:
-		print('Reaction check')
+		#print('Reaction check')
 		# Check either combination of cards
 		var card0: Card
 		var card1: Card
@@ -53,11 +53,13 @@ func add_card(card: Card) -> bool:
 				
 			if card0.card_type in global.interact_table.keys():
 				if card1.card_type in global.interact_table[card0.card_type].keys():
-					print('reactable')
+					#print('reactable')
 					# If mixable, return true AND queue the mix
 					react(card0, card1)
 					return true
+			print('not reactable')
 	return false
+
 
 
 func react(reactant0: Card, reactant1: Card):
@@ -68,7 +70,8 @@ func react(reactant0: Card, reactant1: Card):
 	if r1 in global.interact_table[r0].keys():
 		var card_name = global.interact_table[r0][r1]
 		remove_card(reactant0)
-		reactant1.home_object.remove_card(reactant1)
+		if reactant1.home_object != null:
+			reactant1.home_object.remove_card(reactant1)
 		reactant0.destroy()
 		reactant1.destroy()
 		
@@ -87,3 +90,9 @@ func remove_card(card: Card):
 	print('Remove card called')
 	child = null
 	
+
+
+func kill_child():
+	if child != null:
+		child.destroy()
+	child = null

@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://cmtlj03gdmmj1"]
+
+[ext_resource type="Script" path="res://Scripts/mana_zone.gd" id="1_10uyd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h8s4a"]
+size = Vector2(166, 140)
+
+[node name="ManaZone" type="StaticBody2D"]
+script = ExtResource("1_10uyd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(24.5, 20)
+shape = SubResource("RectangleShape2D_h8s4a")
