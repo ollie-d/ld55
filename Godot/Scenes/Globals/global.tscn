@@ -6,6 +6,5 @@
 script = ExtResource("1_ma3og")
 
 [node name="hover_queue" type="Label" parent="."]
-visible = false
 offset_right = 304.0
 offset_bottom = 84.0

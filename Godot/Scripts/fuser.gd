@@ -24,16 +24,22 @@ func _process(delta):
 
 func add_card(card: Card) -> bool:
 	if child == card:
+		print('Child IS card')
 		card.position = self.position
 		card.original_position = self.position
 	elif child == null:
+		print('Child is null')
 		child = card
 		card.position = self.position
 		card.original_position = self.position
+		if card.home_object != null:
+			# If not a fresh card, tell its old owner to drop it
+			card.home_object.remove_card(card)
 		if !is_deposit:
 			card.set_home(self)
 		return true
 	else:
+		print('Reaction check')
 		# Check either combination of cards
 		var card0: Card
 		var card1: Card
@@ -62,6 +68,7 @@ func react(reactant0: Card, reactant1: Card):
 	if r1 in global.interact_table[r0].keys():
 		var card_name = global.interact_table[r0][r1]
 		remove_card(reactant0)
+		reactant1.home_object.remove_card(reactant1)
 		reactant0.destroy()
 		reactant1.destroy()
 		
@@ -77,5 +84,6 @@ func react(reactant0: Card, reactant1: Card):
 
 func remove_card(card: Card):
 	# Should only ever have one
+	print('Remove card called')
 	child = null
 	

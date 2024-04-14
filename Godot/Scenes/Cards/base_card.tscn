@@ -111,6 +111,15 @@ text = "
 turn start:
 If possible, Create [wave amp=10 freq=5][color=red]1 fire[/color][/wave] in [color=green]fuser[/color] to the right of card"
 
+[node name="z" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = -37.0
+offset_top = 36.0
+offset_right = 3.0
+offset_bottom = 59.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "z"
+
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
 [connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]

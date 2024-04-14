@@ -1,6 +1,6 @@
 extends Node2D
 
-var DEBUG = false
+var DEBUG = true
 
 var card_being_held = false
 var card_being_hovered: Card = null
@@ -20,12 +20,16 @@ var interact_table = {
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	if DEBUG:
+		$hover_queue.visible = true
+	else:
+		$hover_queue.visible = false
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	pass
+	if DEBUG:
+		$hover_queue.text = str(hover_queue)
 
 
 func add_card_to_hover_queue(card: Card):

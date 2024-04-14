@@ -31,6 +31,7 @@ func create_card(card_type: String, hand: Hand = null, fuser: Fuser = null):
 	card.set_card(card_type)
 	card.card_placed_in_fuser.connect(card_placed_in_fuser)
 	card.card_placed_in_hand.connect(card_placed_in_hand)
+	card.z_index = card.default_z
 	
 	assert(not((fuser != null) and (hand != null)))
 	
@@ -64,13 +65,25 @@ func card_placed_in_hand(hand: Hand, card: Card):
 	card.in_hand()
 	hand.add_card(card)
 
-
 func card_placed_in_fuser(fuser: Fuser, card: Card):
+	# First, let's check if we're being added to a depisotier
+	if fuser.is_deposit:
+		if fuser.check_deposit(card):
+			# The else case is handled automatically
+			pass
+	elif fuser.add_card(card):
+		# This means that we CAN add the card
+		print('Added card')
+
+
+func OLD_card_placed_in_fuser(fuser: Fuser, card: Card):
 	var return_card = true
 	
 	if card.is_in_hand:
+		print('card was in hand')
 		card.hand_ref.remove_card(card)
 	elif card.is_in_fuser:
+		print('card was in fuser')
 		card.fuser_ref.remove_card(card)
 	
 	
@@ -95,7 +108,6 @@ func card_placed_in_fuser(fuser: Fuser, card: Card):
 		
 	if return_card:
 		print('Should return card')
-		print(card.home_object.is_deposit)
 		card.home_object.add_card(card)
 		#if card.is_in_hand:
 		#	card.hand_ref.add_card(card)

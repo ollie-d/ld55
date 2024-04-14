@@ -15,6 +15,7 @@ var card_types = {
 	'imp': {'card_type': 'imp', 'art': 'res://Assets/Cards/Symbols/imp.png', 'card_name': '[center]Imp[/center]', 'mana_cost': 1, 'tooltip':tooltips.imp},
 	'newt': {'card_type': 'newt', 'art': 'res://Assets/Cards/Symbols/newt.png', 'card_name': '[center]Newt[/center]', 'mana_cost': 1, 'tooltip':null},
 	'eye_of_newt': {'card_type': 'eye_of_newt', 'art': 'res://Assets/Cards/Symbols/eye_of_newt.png', 'card_name': '[p][center]Eye of[/center][/p][p][center]Newt[/center][/p]', 'mana_cost': 1, 'tooltip':null},
+	'paste': {'card_type': 'paste', 'art': 'res://Assets/Cards/Symbols/paste.png', 'card_name': '[center]Paste[/center]', 'mana_cost': 1, 'tooltip':null},
 }
 
 var hovered = false
@@ -26,7 +27,7 @@ var is_over_fuser = false
 var mana_cost = 1
 var fuser_ref: Fuser
 var hand_ref: Hand
-var position_modifier = Vector2(0.0, -20.0)
+var position_modifier = Vector2(0.0, -0.0)
 var scale_modifier = Vector2(1.2, 1.2)
 
 var default_z = 1.0
@@ -45,8 +46,10 @@ signal card_placed_in_hand
 func _ready():
 	if global.DEBUG:
 		$ColorRect.visible = true
+		$z.visible = true
 	else:
 		$ColorRect.visible = false
+		$z.visible = false
 	
 	self.z_index = default_z
 
@@ -96,6 +99,8 @@ func _process(delta):
 			$x.visible = true
 		else:
 			$x.visible = false
+		
+		$z.text = str(self.z_index)
 
 
 func _physics_process(delta):
@@ -134,7 +139,7 @@ func _physics_process(delta):
 				$tooltip.visible = false
 		else:
 			$tooltip.visible = false
-			self.z_index = default_z
+			self.z_index = 10
 			%card.material.set_shader_parameter("width", 0)
 
 
@@ -172,8 +177,6 @@ func _on_area_2d_input_event(viewport, event, shape_idx):
 			if is_over_fuser:
 				emit_signal("card_placed_in_fuser", fuser_ref, self)
 			elif is_over_hand and is_in_hand:
-				# Do not allow transfer to hand unless already in hand
-				# TODO: make sure this doesn't allow you to steal hehe
 				emit_signal("card_placed_in_hand", hand_ref, self)
 			else:
 				print('return to original place')
@@ -193,16 +196,6 @@ func in_hand():
 func _on_area_2d_area_entered(area):
 	# Will be triggered when passes over other cards
 	pass
-
-
-func _on_area_2d_body_entered(body):
-	# NOT BEING USED
-	if body is Fuser:
-		is_over_fuser = true
-		fuser_ref = body
-	elif body is Hand:
-		is_over_hand = true
-		hand_ref = body
 
 
 func _on_area_2d_body_exited(body):

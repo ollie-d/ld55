@@ -34,6 +34,9 @@ func check_deposit(card: Card):
 		print("got a valid deposit")
 		deposits_left -= 1
 		update_text()
+		
+		# Remove card from hand/fuser
+		card.home_object.remove_card(card)
 		card.destroy()
 		return true
 	else:

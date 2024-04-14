@@ -39,3 +39,14 @@ theme_override_fonts/font = ExtResource("3_ik088")
 theme_override_font_sizes/font_size = 16
 text = "0 / 7"
 horizontal_alignment = 1
+
+[node name="cards" type="Label" parent="."]
+offset_top = -24.0
+offset_right = 40.0
+offset_bottom = -1.0
+
+[node name="pos" type="Label" parent="."]
+offset_left = 1.0
+offset_top = -51.0
+offset_right = 41.0
+offset_bottom = -28.0

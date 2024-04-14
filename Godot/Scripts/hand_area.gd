@@ -4,7 +4,7 @@ class_name Hand
 
 # Store all cards contained within hand
 var cards = []
-var card_positions = []
+#var card_positions = []
 var card_w = 91
 var max_cards = 7
 var overlap_len = 7
@@ -19,11 +19,19 @@ var origin: Vector2#Vector2(379.0, 72.0)
 # Called when the node enters the scene tree for the first time.
 func _ready():
     origin = $CollisionShape2D.get_global_position()
+    if global.DEBUG:
+        $cards.visible = true
+        $pos.visible = true
+    else:
+        $cards.visible = false
+        $pos.visible = false
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-    pass
+    if global.DEBUG:
+        $cards.text = str(cards)
+        #$pos.text = str(card_positions)
 
 
 func add_card(card):
@@ -32,6 +40,7 @@ func add_card(card):
             cards.append(card)
             arrange_cards()
             card.set_home(self)
+            card.z_index = card.default_z
             return true
     return false
 
@@ -39,7 +48,7 @@ func add_card(card):
 func remove_card(card):
     if cards.has(card):
         var card_ix = cards.find(card)
-        card_positions.pop_at(card_ix)
+        #card_positions.pop_at(card_ix)
         cards.pop_at(card_ix)
     arrange_cards()
 
