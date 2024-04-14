@@ -13,8 +13,12 @@ func _process(delta):
 
 
 func start_game():
+	transition.transition()
+	await transition.transition_finished
 	get_tree().change_scene_to_packed(play_area)
+	
 
 
 func _on_play_pressed():
+	%play_sound.play()
 	start_game()

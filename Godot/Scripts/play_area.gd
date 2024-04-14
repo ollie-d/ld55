@@ -82,6 +82,12 @@ func load_level():
 	update_mana()
 
 
+func reset_level():
+	transition.transition()
+	await transition.transition_finished
+	load_level()
+
+
 func imp_action(fuser: Fuser):
 	if (fuser.child != null) and (fuser.child.card_type == 'newt'):
 			create_card_in_hand(%hand, 'fire')
@@ -153,6 +159,8 @@ func level_complete():
 		# Do whatever game over shit
 		pass
 	else:
+		transition.transition()
+		await transition.transition_finished
 		load_level()
 
 func end_turn():
@@ -166,6 +174,7 @@ func end_turn():
 		
 		# If fuser is not empty, have child perform action
 		if fuser.child != null:
+			fuser.play_activated_sound()
 			if i == 0:
 				perform_action(null, fuser, fusers[i+1])
 			elif i == len(fusers)-1:
@@ -175,7 +184,7 @@ func end_turn():
 		
 		var timer = Timer.new()
 		add_child(timer)
-		timer.wait_time = 0.5
+		timer.wait_time = 0.250
 		timer.one_shot = true
 		timer.start()
 		await timer.timeout
@@ -188,7 +197,11 @@ func end_turn():
 	
 	# Change turns
 	global.turns_taken += 1
-	update_turns()
+	if global.turns_taken > global.max_turns:
+		# If you're out of turns reset
+		reset_level()
+	else:
+		update_turns()
 	
 	global.turn_ended = false
 	%end_turn.disabled = false
@@ -357,7 +370,7 @@ func _on_button_8_pressed():
 
 
 func _on_restart_pressed():
-	load_level()
+	reset_level()
 
 
 func _on_button_9_pressed():

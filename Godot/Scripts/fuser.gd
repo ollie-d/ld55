@@ -29,6 +29,8 @@ func add_card(card: Card) -> bool:
 		card.original_position = self.position
 	elif child == null:
 		#print('Child is null')
+		if !global.turn_ended:
+			play_placed_sound()
 		child = card
 		card.position = self.position
 		card.original_position = self.position
@@ -60,6 +62,19 @@ func add_card(card: Card) -> bool:
 			print('not reactable')
 	return false
 
+
+func play_placed_sound():
+	var r = RandomNumberGenerator.new()
+	r.randomize()
+	%placed_sound.pitch_scale = r.randf_range(0.8, 1.0)
+	%placed_sound.play()
+
+
+func play_activated_sound():
+	var r = RandomNumberGenerator.new()
+	r.randomize()
+	%activated_sound.pitch_scale = r.randf_range(0.8, 1.0)
+	%activated_sound.play()
 
 
 func react(reactant0: Card, reactant1: Card):

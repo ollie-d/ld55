@@ -16,6 +16,15 @@ func _init():
 func _ready():
 	update_text()
 
+func show_tutorial():
+	%hand_hint.visible = true
+	%hint_text.visible = true
+
+
+func hide_tutorial():
+	%hand_hint.visible = false
+	%hint_text.visible = false
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -33,12 +42,21 @@ func update_text():
 
 func update_card_label():
 	$card_type.text = global.card_types[deposit_type]['card_name']
+	%glyph.texture = load(global.card_types[deposit_type]['art'])
+
+
+func play_deposit_sound():
+	var r = RandomNumberGenerator.new()
+	r.randomize()
+	%deposit_sound.pitch_scale = r.randf_range(0.9, 1.0)
+	%deposit_sound.play()
 
 
 func check_deposit(card: Card):
 	# If deposit valid, update text
 	if card.card_type == deposit_type:
 		print("got a valid deposit")
+		play_deposit_sound()
 		deposits_left -= 1
 		update_text()
 		

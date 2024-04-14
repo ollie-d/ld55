@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 global="*res://Scenes/Globals/global.tscn"
 tooltips="*res://Scenes/Globals/tooltips.tscn"
+transition="*res://Scenes/transition_scene.tscn"
 
 [display]
 

@@ -188,8 +188,16 @@ func destroy():
 	self.queue_free()
 
 
+func play_hover_sound():
+	var r = RandomNumberGenerator.new()
+	r.randomize()
+	%hover_sound.pitch_scale = r.randf_range(0.9, 1.2)
+	%hover_sound.play()
+
+
 func _on_area_2d_mouse_entered():
 	if (not global.card_being_held) and (not hovered) and (not being_dragged):
+		play_hover_sound()
 		global.add_card_to_hover_queue(self)
 		hovered = true
 

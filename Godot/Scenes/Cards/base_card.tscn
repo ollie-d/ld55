@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://b2p3u2th2itps"]
+[gd_scene load_steps=12 format=3 uid="uid://b2p3u2th2itps"]
 
 [ext_resource type="Script" path="res://Scripts/Cards/base_card.gd" id="1_04y7j"]
 [ext_resource type="Texture2D" uid="uid://cdayd3h6j04ob" path="res://Assets/Cards/card_symbol_face.png" id="2_gbw3k"]
@@ -7,12 +7,21 @@
 [ext_resource type="Texture2D" uid="uid://di8t2eudkt0ms" path="res://Assets/Cards/textured_card.png" id="3_sqlab"]
 [ext_resource type="Texture2D" uid="uid://chss3qy64rsum" path="res://Assets/Cards/card_x.png" id="4_4ck1j"]
 [ext_resource type="FontFile" uid="uid://bl8p2kairyiyn" path="res://Assets/Fonts/PixelByzantine_old.ttf" id="6_er0ku"]
+[ext_resource type="AudioStream" uid="uid://chhdt3jmnkby1" path="res://Assets/Sounds/card_hovered.wav" id="8_12jav"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_up04s"]
 resource_local_to_scene = true
 shader = ExtResource("2_molbd")
 shader_parameter/color = Color(0.764706, 0.764706, 0.764706, 1)
 shader_parameter/width = 1.663
+shader_parameter/pattern = 0
+shader_parameter/inside = true
+shader_parameter/add_margins = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xv24w"]
+shader = ExtResource("2_molbd")
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/width = 1.0
 shader_parameter/pattern = 0
 shader_parameter/inside = true
 shader_parameter/add_margins = true
@@ -32,9 +41,9 @@ texture = ExtResource("3_sqlab")
 [node name="card_name" type="RichTextLabel" parent="."]
 unique_name_in_owner = true
 offset_left = -44.0
-offset_top = -60.0
+offset_top = -57.0
 offset_right = 46.0
-offset_bottom = -14.0
+offset_bottom = -11.0
 mouse_filter = 1
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_fonts/normal_font = ExtResource("3_4egxv")
@@ -78,7 +87,15 @@ vertical_alignment = 1
 [node name="tooltip" type="Node2D" parent="."]
 position = Vector2(101, -111)
 
+[node name="tooltip_bg" type="Sprite2D" parent="tooltip"]
+material = SubResource("ShaderMaterial_xv24w")
+position = Vector2(-87, -3.44409)
+rotation = 1.5708
+scale = Vector2(1.15127, 1.32702)
+texture = ExtResource("3_sqlab")
+
 [node name="bg" type="ColorRect" parent="tooltip"]
+visible = false
 offset_left = -177.0
 offset_top = -51.0
 offset_right = -25.0
@@ -87,9 +104,9 @@ mouse_filter = 1
 
 [node name="title" type="Label" parent="tooltip"]
 offset_left = -139.0
-offset_top = -54.0
+offset_top = -60.0
 offset_right = -39.0
-offset_bottom = -31.0
+offset_bottom = -37.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("6_er0ku")
 theme_override_font_sizes/font_size = 25
@@ -97,13 +114,13 @@ text = "Effect"
 
 [node name="tooltip_desc" type="RichTextLabel" parent="tooltip"]
 unique_name_in_owner = true
-offset_left = -174.0
-offset_top = -48.0
-offset_right = -24.0
-offset_bottom = 62.0
+offset_left = -175.0
+offset_top = -55.0
+offset_right = -25.0
+offset_bottom = 55.0
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_fonts/normal_font = ExtResource("6_er0ku")
-theme_override_font_sizes/normal_font_size = 17
+theme_override_font_sizes/normal_font_size = 20
 bbcode_enabled = true
 text = "
 
@@ -125,6 +142,11 @@ text = "z"
 process_mode = 3
 position = Vector2(-0.5, -0.5)
 shape = SubResource("RectangleShape2D_t7r1r")
+
+[node name="hover_sound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("8_12jav")
+max_polyphony = 2
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

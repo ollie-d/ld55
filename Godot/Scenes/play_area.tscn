@@ -297,6 +297,10 @@ text = "Level x"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="AudioListener2D" type="AudioListener2D" parent="."]
+position = Vector2(583, 320)
+current = true
+
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
 [connection signal="pressed" from="Button3" to="." method="_on_button_3_pressed"]

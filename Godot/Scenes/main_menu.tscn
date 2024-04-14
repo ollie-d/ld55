@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://d0e8b4wc2yog5"]
+[gd_scene load_steps=12 format=3 uid="uid://d0e8b4wc2yog5"]
 
 [ext_resource type="Script" path="res://Scripts/main_menu.gd" id="1_qtcx1"]
 [ext_resource type="Shader" path="res://Shaders/play_area.gdshader" id="2_wbc0u"]
@@ -6,6 +6,7 @@
 [ext_resource type="Shader" path="res://Shaders/cloud.gdshader" id="4_ffati"]
 [ext_resource type="FontFile" uid="uid://bl8p2kairyiyn" path="res://Assets/Fonts/PixelByzantine_old.ttf" id="5_flxpa"]
 [ext_resource type="FontFile" uid="uid://cligw5pqnisrc" path="res://Assets/Fonts/PixelByzantine_Edited.ttf" id="6_actws"]
+[ext_resource type="AudioStream" uid="uid://cd67h83k8qv2g" path="res://Assets/Sounds/bottle_blow_processed.wav" id="7_be71k"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_k4kqh"]
 shader = ExtResource("2_wbc0u")
@@ -100,7 +101,12 @@ theme_override_colors/default_color = Color(0.937255, 0.937255, 0.937255, 0.1725
 theme_override_fonts/normal_font = ExtResource("6_actws")
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
-text = "[center]Made in [shake]48 hours[/shake] for the Ludum dare 55 Compo 
+text = "[center]Made in [shake]48 hours[/shake] for the Ludum dare 55 Compo
+Theme was Summoning 
 by Ollie D`Amico[/center]"
+
+[node name="play_sound" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("7_be71k")
 
 [connection signal="pressed" from="play" to="." method="_on_play_pressed"]
