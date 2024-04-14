@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://c1s58wpw6vw7b"]
+[gd_scene load_steps=19 format=3 uid="uid://c1s58wpw6vw7b"]
 
 [ext_resource type="PackedScene" uid="uid://bn3bc0f3yocbf" path="res://Scenes/fuser.tscn" id="1_mlna0"]
 [ext_resource type="Script" path="res://Scripts/play_area.gd" id="1_pn6m7"]
@@ -12,6 +12,8 @@
 [ext_resource type="FontFile" uid="uid://cligw5pqnisrc" path="res://Assets/Fonts/PixelByzantine_Edited.ttf" id="8_vro1s"]
 [ext_resource type="Shader" path="res://Shaders/cloud.gdshader" id="11_smyx4"]
 [ext_resource type="FontFile" uid="uid://5jyr46vusbmc" path="res://Assets/Cards/PixelByzantine_2.ttf" id="12_f2alh"]
+[ext_resource type="FontFile" uid="uid://dowiess61upma" path="res://Assets/Fonts/ElderGodsBB.ttf" id="13_ia8cf"]
+[ext_resource type="PackedScene" uid="uid://k4ce3h3lrulj" path="res://Scenes/combinations.tscn" id="14_4wyj7"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ta1x6"]
 shader = ExtResource("2_70ihb")
@@ -22,7 +24,7 @@ resource_local_to_scene = true
 noise_type = 0
 frequency = 0.0177
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_fdwjt"]
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_tb6ek"]
 resource_local_to_scene = true
 width = 320
 height = 320
@@ -35,7 +37,7 @@ resource_local_to_scene = true
 shader = ExtResource("11_smyx4")
 shader_parameter/density = 0.25
 shader_parameter/speed = Vector2(0.02, 0.01)
-shader_parameter/noise_texture = SubResource("NoiseTexture2D_fdwjt")
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_tb6ek")
 
 [node name="PlayArea" type="Node2D"]
 script = ExtResource("1_pn6m7")
@@ -277,11 +279,11 @@ text = "Lvl3"
 
 [node name="Button10" type="Button" parent="."]
 visible = false
-offset_left = 811.0
-offset_top = 179.0
-offset_right = 865.0
-offset_bottom = 229.0
-text = "Lvl4"
+offset_left = 501.0
+offset_top = 139.0
+offset_right = 555.0
+offset_bottom = 189.0
+text = "Final Level"
 
 [node name="level" type="Label" parent="."]
 unique_name_in_owner = true
@@ -374,6 +376,51 @@ theme_override_font_sizes/normal_font_size = 64
 bbcode_enabled = true
 text = "[center][shake level=2 rate=2]Play around with combination, summoning is a creative process[/shake][/center]"
 
+[node name="tut_text6" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+visible = false
+offset_left = 221.0
+offset_top = 39.0
+offset_right = 945.0
+offset_bottom = 244.0
+theme_override_fonts/normal_font = ExtResource("12_f2alh")
+theme_override_font_sizes/normal_font_size = 64
+bbcode_enabled = true
+text = "[center][shake level=2 rate=2]If you must, you can check combinations with the hint button[/shake][/center]"
+
+[node name="tut_text7" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+visible = false
+offset_left = 221.0
+offset_top = 39.0
+offset_right = 945.0
+offset_bottom = 244.0
+theme_override_fonts/normal_font = ExtResource("12_f2alh")
+theme_override_font_sizes/normal_font_size = 64
+bbcode_enabled = true
+text = "[center][shake level=2 rate=2]You're on your own now[/shake][/center]
+[center][shake level=10 rate=20][color=#664330]good luck[/color][/shake][/center]"
+
+[node name="hint_button" type="Button" parent="."]
+unique_name_in_owner = true
+offset_left = 16.0
+offset_top = 314.0
+offset_right = 85.0
+offset_bottom = 380.0
+theme_override_fonts/font = ExtResource("13_ia8cf")
+theme_override_font_sizes/font_size = 48
+text = "?"
+
+[node name="hint_arrow" type="Sprite2D" parent="hint_button"]
+unique_name_in_owner = true
+visible = false
+position = Vector2(32, 57)
+texture = ExtResource("6_kp7c1")
+
+[node name="Combinations" parent="." instance=ExtResource("14_4wyj7")]
+unique_name_in_owner = true
+visible = false
+
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
 [connection signal="pressed" from="Button3" to="." method="_on_button_3_pressed"]
@@ -386,5 +433,6 @@ text = "[center][shake level=2 rate=2]Play around with combination, summoning is
 [connection signal="pressed" from="Button8" to="." method="_on_button_8_pressed"]
 [connection signal="pressed" from="Button9" to="." method="_on_button_9_pressed"]
 [connection signal="pressed" from="Button10" to="." method="_on_button_10_pressed"]
+[connection signal="pressed" from="hint_button" to="." method="_on_hint_button_pressed"]
 
 [editable path="ManaZone"]

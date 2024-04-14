@@ -16,4 +16,4 @@ process_thread_group = 2
 process_thread_group_order = 0
 process_thread_messages = 0
 stream = ExtResource("2_3qkfo")
-volume_db = -5.0
+volume_db = -10.0

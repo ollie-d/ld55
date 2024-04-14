@@ -4,6 +4,7 @@ extends Node2D
 var fusers = []
 
 signal card_created
+signal hint_clicked
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -82,6 +83,7 @@ func toggle_main_ui_visibility(state: bool):
 	%deposit.visible = state
 	%end_turn.visible = state
 	%restart.visible = state
+	%hint_button.visible = state
 
 func toggle_turns_visibility(state: bool):
 	$turns_label.visible = state
@@ -111,6 +113,9 @@ func load_level():
 	%tut_text3.visible = false
 	%tut_text4.visible = false
 	%tut_text5.visible = false
+	%tut_text6.visible = false
+	%tut_text7.visible = false
+	%hint_arrow.visible = false
 	%deposit.hide_tutorial()
 	
 	# Handle tutorial levels
@@ -169,6 +174,7 @@ func load_level():
 		
 	elif global.current_level == 2:
 		toggle_main_ui_visibility(true)
+		%hint_button.visible = false
 		%restart.visible = false
 		for fuser in fusers:
 			fuser.visible = false
@@ -185,6 +191,9 @@ func load_level():
 		%tut_text4.visible = true
 	
 	elif global.current_level == 3:
+		toggle_main_ui_visibility(true)
+		%hint_button.visible = false
+		%hint_arrow.visible = false
 		%tut_text4.visible = false
 		%tut_text5.visible = true
 		%restart.visible = true
@@ -192,8 +201,32 @@ func load_level():
 		await self.card_created
 		%tut_text5.visible = false
 		
+		%tut_text6.visible = true
+		%hint_button.visible = true
+		%hint_arrow.visible = true
+		
+		await self.hint_clicked
+		
+		%tut_text6.visible = false
+		%hint_arrow.visible = false
+		
+		await self.hint_clicked
+		
+		%tut_text7.visible = true
+		var timer = Timer.new()
+		add_child(timer)
+		timer.wait_time = 2.0
+		timer.one_shot = true
+		timer.start()
+		await timer.timeout
+		%tut_text7.visible = false
+		
+		
+		
+		
 	else:
 		add_all_fusers()
+		toggle_main_ui_visibility(true)
 
 
 func reset_level():
@@ -266,12 +299,18 @@ func perform_action(left_fuser: Fuser, active_fuser: Fuser, right_fuser: Fuser):
 		squid_action()
 
 
+func game_over():
+	transition.transition()
+	await transition.transition_finished
+	var credits = preload("res://Scenes/game_over.tscn")
+	get_tree().change_scene_to_packed(credits)
+
+
 func level_complete():
 	# Logic for what to do after a level has been beaten
 	global.current_level += 1
 	if global.current_level >= global.num_levels:
-		# Do whatever game over shit
-		pass
+		game_over()
 	else:
 		transition.transition()
 		await transition.transition_finished
@@ -496,5 +535,10 @@ func _on_button_9_pressed():
 
 
 func _on_button_10_pressed():
-	global.current_level = 4
+	global.current_level = len(global.levels)-1
 	load_level()
+
+
+func _on_hint_button_pressed():
+	%Combinations.visible = !%Combinations.visible
+	emit_signal("hint_clicked")

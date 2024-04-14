@@ -1,0 +1,43 @@
+[gd_scene load_steps=4 format=3 uid="uid://btjug54cx21u5"]
+
+[ext_resource type="Script" path="res://Scenes/combination_spoiler.gd" id="1_0irkg"]
+[ext_resource type="FontFile" uid="uid://dowiess61upma" path="res://Assets/Fonts/ElderGodsBB.ttf" id="2_1divh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v213t"]
+size = Vector2(197, 49)
+
+[node name="CombinationSpoiler" type="Node2D"]
+script = ExtResource("1_0irkg")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(90.5, 22.5)
+shape = SubResource("RectangleShape2D_v213t")
+
+[node name="product" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+offset_right = 402.0
+offset_bottom = 67.0
+mouse_filter = 1
+theme_override_fonts/normal_font = ExtResource("2_1divh")
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "Boiling Water"
+scroll_active = false
+
+[node name="reactants" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+offset_left = 192.0
+offset_right = 753.0
+offset_bottom = 67.0
+mouse_filter = 1
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_fonts/normal_font = ExtResource("2_1divh")
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "= Eye of Newt + Water, or Imp + Paste"
+scroll_active = false
+
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

@@ -24,10 +24,10 @@ var num_levels: int
 var levels = {
 	0: {'starting_resources':['fire','wood'], 'deposit':{'card_type':'ash', 'quantity':1}, 'max_turns': 1},
 	1: {'starting_resources':[], 'deposit':{'card_type':'fire', 'quantity':3}, 'max_turns': 3},
-	2: {'starting_resources':[], 'deposit':{'card_type':'ash', 'quantity':1}, 'max_turns': 2},
-	3: {'starting_resources':['fire','wood','water'], 'deposit':{'card_type':'paste', 'quantity':1}, 'max_turns': 3},
-	4: {'starting_resources':['squid', 'fire', 'wood'], 'deposit':{'card_type':'ash', 'quantity':3}, 'max_turns': 5},
-	5: {'starting_resources':['eye_of_newt', 'fire', 'fire'], 'deposit':{'card_type':'imp', 'quantity':1}, 'max_turns': 5},
+	2: {'starting_resources':[], 'deposit':{'card_type':'ash', 'quantity':2}, 'max_turns': 2},
+	3: {'starting_resources':['fire','wood','water'], 'deposit':{'card_type':'paste', 'quantity':1}, 'max_turns': 2},
+	4: {'starting_resources':['eye_of_newt', 'fire', 'fire'], 'deposit':{'card_type':'imp', 'quantity':1}, 'max_turns': 3},
+	5: {'starting_resources':['squid', 'fire', 'wood'], 'deposit':{'card_type':'ash', 'quantity':3}, 'max_turns': 5},
 	6: {'starting_resources':['newt','water', 'fire', 'fire', 'wood'], 'deposit':{'card_type':'imp', 'quantity':5}, 'max_turns': 10},
 	7: {'starting_resources':['fire', 'fire', 'wood', 'water', 'water', 'newt'], 'deposit':{'card_type':'demon', 'quantity':1}, 'max_turns': 10},
 }
@@ -62,6 +62,9 @@ func _ready():
 	'demon': {'card_type': 'demon', 'art': 'res://Assets/Cards/Symbols/demon.png', 'card_name': '[center][wave][color=#880015]Demon[/color][/wave][/center]', 'mana_cost': 2, 'tooltip':tooltips.demon},
 	'squid': {'card_type': 'squid', 'art': 'res://Assets/Cards/Symbols/squid.png', 'card_name': '[center][wave][color=#880015]Squid[/color][/wave][/center]', 'mana_cost': 2, 'tooltip':tooltips.squid},
 	}
+	
+	if DEBUG:
+		levels[len(levels)-1]['deposit']['card_type'] = 'fire'
 	
 	if !enable_mana:
 		for key in card_types.keys():
