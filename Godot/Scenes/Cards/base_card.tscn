@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://b2p3u2th2itps"]
+[gd_scene load_steps=13 format=3 uid="uid://b2p3u2th2itps"]
 
 [ext_resource type="Script" path="res://Scripts/Cards/base_card.gd" id="1_04y7j"]
 [ext_resource type="Texture2D" uid="uid://cdayd3h6j04ob" path="res://Assets/Cards/card_symbol_face.png" id="2_gbw3k"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://chss3qy64rsum" path="res://Assets/Cards/card_x.png" id="4_4ck1j"]
 [ext_resource type="FontFile" uid="uid://bl8p2kairyiyn" path="res://Assets/Fonts/PixelByzantine_old.ttf" id="6_er0ku"]
 [ext_resource type="AudioStream" uid="uid://chhdt3jmnkby1" path="res://Assets/Sounds/card_hovered.wav" id="8_12jav"]
+[ext_resource type="FontFile" uid="uid://g2g1ql4xc2f3" path="res://Assets/Fonts/PixelByzantine_2.ttf" id="8_fsh74"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_up04s"]
 resource_local_to_scene = true
@@ -115,12 +116,12 @@ text = "Effect"
 
 [node name="tooltip_desc" type="RichTextLabel" parent="tooltip"]
 unique_name_in_owner = true
-offset_left = -175.0
-offset_top = -55.0
-offset_right = -25.0
+offset_left = -180.0
+offset_top = -59.0
+offset_right = -21.0
 offset_bottom = 55.0
 theme_override_colors/default_color = Color(0, 0, 0, 1)
-theme_override_fonts/normal_font = ExtResource("6_er0ku")
+theme_override_fonts/normal_font = ExtResource("8_fsh74")
 theme_override_font_sizes/normal_font_size = 20
 bbcode_enabled = true
 text = "

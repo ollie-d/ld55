@@ -60,6 +60,7 @@ func add_all_fusers():
 	
 	for fuser in fusers:
 		fuser.visible = true
+		fuser.disabled = false
 
 
 func clear_play_area():
@@ -127,10 +128,14 @@ func load_level():
 		# Only keep center fuser
 		for fuser in fusers:
 			fuser.visible = false
+			fuser.disabled = true
 		fusers = [$Fuser3]
 		$Fuser3.visible = true
+		$Fuser3.disabled = false
 		
-		await $Fuser3.create_card_in_fuser
+		# There's always a lag spike here
+		#await $Fuser3.create_card_in_fuser
+		await $Fuser3.react_called
 		
 		%tut_text0.visible = false
 		%deposit.show_tutorial()
@@ -145,9 +150,11 @@ func load_level():
 		%deposit.visible = true
 		for fuser in fusers:
 			fuser.visible = false
+			fuser.disabled = true
 		fusers = [$Fuser2, $Fuser3, $Fuser4]
 		for fuser in fusers:
 			fuser.visible = true
+			fuser.disabled = false
 		create_card_in_fuser($Fuser3, 'imp')
 		
 		$Fuser3.child.locked_in_place = true
@@ -178,9 +185,11 @@ func load_level():
 		%restart.visible = false
 		for fuser in fusers:
 			fuser.visible = false
+			fuser.disabled = true
 		fusers = [$Fuser2, $Fuser3, $Fuser4]
 		for fuser in fusers:
 			fuser.visible = true
+			fuser.disabled = false
 		
 		create_card_in_fuser($Fuser2, 'imp')
 		create_card_in_fuser($Fuser4, 'ent')
@@ -191,6 +200,9 @@ func load_level():
 		%tut_text4.visible = true
 	
 	elif global.current_level == 3:
+		for fuser in fusers:
+			fuser.visible = true
+			fuser.disabled = false
 		toggle_main_ui_visibility(true)
 		%hint_button.visible = false
 		%hint_arrow.visible = false
@@ -541,4 +553,5 @@ func _on_button_10_pressed():
 
 func _on_hint_button_pressed():
 	%Combinations.visible = !%Combinations.visible
+	global.hint_screen_open = %Combinations.visible
 	emit_signal("hint_clicked")

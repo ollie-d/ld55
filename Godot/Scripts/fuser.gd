@@ -3,8 +3,10 @@ class_name Fuser extends StaticBody2D
 var child: Card = null # this will hold the child in the fuser
 
 var is_deposit = false
+var disabled = false
 
 signal create_card_in_fuser
+signal react_called
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -28,6 +30,8 @@ func _process(delta):
 
 
 func add_card(card: Card) -> bool:
+	if disabled:
+		return false
 	if child == card:
 		#print('Child IS card')
 		card.position = self.position
@@ -83,10 +87,11 @@ func play_activated_sound():
 
 
 func react(reactant0: Card, reactant1: Card):
+	emit_signal('react_called')
 	# If reaction is valid, delete old cards and create a new one
 	var r0 = reactant0.card_type
 	var r1 = reactant1.card_type
-	
+	global.react_called = true
 	if r1 in global.interact_table[r0].keys():
 		var card_name = global.interact_table[r0][r1]
 		if reactant1.home_object != null:

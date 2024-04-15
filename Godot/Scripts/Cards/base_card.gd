@@ -132,7 +132,7 @@ func _process(delta):
 					is_over_mana = true
 		
 		# Handle mouse being hovered over
-		if (not being_dragged) and (home_object != null):
+		if (not being_dragged) and (home_object != null) and (!global.hint_screen_open):
 			var hover_check_failed = true
 			if len(global.hover_queue) > 0:
 				if self == global.hover_queue[0]:
@@ -218,9 +218,11 @@ func _on_area_2d_input_event(viewport, event, shape_idx):
 	if (event is InputEventMouseButton) and (!global.turn_ended) and (!locked_in_place):
 		# Detect start of drag
 		if (event.button_index == 1) and (event.pressed == true) and (hovered) and (not being_dragged):
-			being_dragged = true
-			global.card_being_held = true
-			cursor_offset = get_global_mouse_position() - self.global_position
+			if len(global.hover_queue) > 0:
+				if global.hover_queue[0] == self:
+					being_dragged = true
+					global.card_being_held = true
+					cursor_offset = get_global_mouse_position() - self.global_position
 		# Detect end of drag
 		elif (event.button_index == 1) and (event.pressed == false) and (being_dragged):
 			# Add logic to check if it's in a fuser OR being re-arranged in hand

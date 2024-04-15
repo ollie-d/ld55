@@ -103,7 +103,7 @@ reactants = "= Summoned by Demons and Imps"
 [node name="imp" parent="." instance=ExtResource("5_qlx1w")]
 position = Vector2(220, 328)
 product = "Imp"
-reactants = "= Fire + Ash"
+reactants = "= Fire + Ash, or Squid + Fire"
 
 [node name="newt" parent="." instance=ExtResource("5_qlx1w")]
 position = Vector2(220, 381)

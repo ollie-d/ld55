@@ -18,18 +18,23 @@ var max_turns: int
 var mana_max = 4
 var mana = 4
 
+var react_called = false
+
 var current_level = 0
 var num_levels: int
+
+var hint_screen_open = false
 
 var levels = {
 	0: {'starting_resources':['fire','wood'], 'deposit':{'card_type':'ash', 'quantity':1}, 'max_turns': 1},
 	1: {'starting_resources':[], 'deposit':{'card_type':'fire', 'quantity':3}, 'max_turns': 3},
-	2: {'starting_resources':[], 'deposit':{'card_type':'ash', 'quantity':2}, 'max_turns': 2},
+	2: {'starting_resources':[], 'deposit':{'card_type':'ash', 'quantity':1}, 'max_turns': 2},
 	3: {'starting_resources':['fire','wood','water'], 'deposit':{'card_type':'paste', 'quantity':1}, 'max_turns': 2},
 	4: {'starting_resources':['eye_of_newt', 'fire', 'fire'], 'deposit':{'card_type':'imp', 'quantity':1}, 'max_turns': 3},
-	5: {'starting_resources':['squid', 'fire', 'wood'], 'deposit':{'card_type':'ash', 'quantity':3}, 'max_turns': 5},
-	6: {'starting_resources':['newt','water', 'fire', 'fire', 'wood'], 'deposit':{'card_type':'imp', 'quantity':5}, 'max_turns': 10},
-	7: {'starting_resources':['fire', 'fire', 'wood', 'water', 'water', 'newt'], 'deposit':{'card_type':'demon', 'quantity':1}, 'max_turns': 10},
+	5: {'starting_resources':['squid', 'fire'], 'deposit':{'card_type':'fire', 'quantity':3}, 'max_turns': 5},
+	6: {'starting_resources':['squid', 'fire', 'wood'], 'deposit':{'card_type':'ash', 'quantity':3}, 'max_turns': 5},
+	7: {'starting_resources':['newt','water', 'fire', 'fire', 'wood'], 'deposit':{'card_type':'imp', 'quantity':5}, 'max_turns': 10},
+	8: {'starting_resources':['fire', 'fire', 'wood', 'water', 'water', 'newt'], 'deposit':{'card_type':'demon', 'quantity':1}, 'max_turns': 10},
 }
 
 var interact_table = {

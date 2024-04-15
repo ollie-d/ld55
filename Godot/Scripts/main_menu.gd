@@ -20,5 +20,5 @@ func start_game():
 
 
 func _on_play_pressed():
-	%play_sound.play()
+	global.find_child('play_sound').play()
 	start_game()

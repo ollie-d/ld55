@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://byg81k0ejlse2"]
+[gd_scene load_steps=4 format=3 uid="uid://byg81k0ejlse2"]
 
 [ext_resource type="Script" path="res://Scripts/Globals/global.gd" id="1_ma3og"]
 [ext_resource type="AudioStream" uid="uid://cywdwaj86l6g7" path="res://Assets/Music/loopitis.wav" id="2_3qkfo"]
+[ext_resource type="AudioStream" uid="uid://cd67h83k8qv2g" path="res://Assets/Sounds/bottle_blow_processed.wav" id="3_jqcx4"]
 
 [node name="Global" type="Node2D"]
 script = ExtResource("1_ma3og")
@@ -16,4 +17,8 @@ process_thread_group = 2
 process_thread_group_order = 0
 process_thread_messages = 0
 stream = ExtResource("2_3qkfo")
-volume_db = -10.0
+volume_db = -20.0
+
+[node name="play_sound" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_jqcx4")

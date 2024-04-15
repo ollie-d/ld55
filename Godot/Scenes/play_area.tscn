@@ -11,7 +11,7 @@
 [ext_resource type="FontFile" uid="uid://bl8p2kairyiyn" path="res://Assets/Fonts/PixelByzantine_old.ttf" id="8_pd3md"]
 [ext_resource type="FontFile" uid="uid://cligw5pqnisrc" path="res://Assets/Fonts/PixelByzantine_Edited.ttf" id="8_vro1s"]
 [ext_resource type="Shader" path="res://Shaders/cloud.gdshader" id="11_smyx4"]
-[ext_resource type="FontFile" uid="uid://5jyr46vusbmc" path="res://Assets/Cards/PixelByzantine_2.ttf" id="12_f2alh"]
+[ext_resource type="FontFile" uid="uid://g2g1ql4xc2f3" path="res://Assets/Fonts/PixelByzantine_2.ttf" id="12_onab3"]
 [ext_resource type="FontFile" uid="uid://dowiess61upma" path="res://Assets/Fonts/ElderGodsBB.ttf" id="13_ia8cf"]
 [ext_resource type="PackedScene" uid="uid://k4ce3h3lrulj" path="res://Scenes/combinations.tscn" id="14_4wyj7"]
 
@@ -311,7 +311,7 @@ offset_left = 222.0
 offset_top = 80.0
 offset_right = 946.0
 offset_bottom = 235.0
-theme_override_fonts/normal_font = ExtResource("12_f2alh")
+theme_override_fonts/normal_font = ExtResource("12_onab3")
 theme_override_font_sizes/normal_font_size = 64
 bbcode_enabled = true
 text = "[center][shake level=2 rate=2]Drag cards into[/shake] [color=purple]fuser[/color][shake level=2 rate=2] to summon new cards[/shake][/center]"
@@ -323,7 +323,7 @@ offset_left = 221.0
 offset_top = 33.0
 offset_right = 945.0
 offset_bottom = 238.0
-theme_override_fonts/normal_font = ExtResource("12_f2alh")
+theme_override_fonts/normal_font = ExtResource("12_onab3")
 theme_override_font_sizes/normal_font_size = 64
 bbcode_enabled = true
 text = "[center][shake level=2 rate=2]Hover over [color=#880015]special cards[/color] to read their effects[/shake][/center]"
@@ -335,7 +335,7 @@ offset_left = 221.0
 offset_top = 71.0
 offset_right = 945.0
 offset_bottom = 276.0
-theme_override_fonts/normal_font = ExtResource("12_f2alh")
+theme_override_fonts/normal_font = ExtResource("12_onab3")
 theme_override_font_sizes/normal_font_size = 64
 bbcode_enabled = true
 text = "[center][shake level=2 rate=2]Effects only take place once you end your turn[/shake][/center]"
@@ -347,7 +347,7 @@ offset_left = 221.0
 offset_top = 35.0
 offset_right = 945.0
 offset_bottom = 240.0
-theme_override_fonts/normal_font = ExtResource("12_f2alh")
+theme_override_fonts/normal_font = ExtResource("12_onab3")
 theme_override_font_sizes/normal_font_size = 64
 bbcode_enabled = true
 text = "[center][shake level=2 rate=2]Complete the requirements before your turns run out[/shake][/center]"
@@ -359,7 +359,7 @@ offset_left = 221.0
 offset_top = 43.0
 offset_right = 945.0
 offset_bottom = 248.0
-theme_override_fonts/normal_font = ExtResource("12_f2alh")
+theme_override_fonts/normal_font = ExtResource("12_onab3")
 theme_override_font_sizes/normal_font_size = 64
 bbcode_enabled = true
 text = "[center][shake level=2 rate=2]The ent and the imp form an effective ash factory[/shake][/center]"
@@ -371,10 +371,10 @@ offset_left = 221.0
 offset_top = 40.0
 offset_right = 945.0
 offset_bottom = 245.0
-theme_override_fonts/normal_font = ExtResource("12_f2alh")
+theme_override_fonts/normal_font = ExtResource("12_onab3")
 theme_override_font_sizes/normal_font_size = 64
 bbcode_enabled = true
-text = "[center][shake level=2 rate=2]Play around with combination, summoning is a creative process[/shake][/center]"
+text = "[center][shake level=2 rate=2]Play around with combinations, summoning is a creative process[/shake][/center]"
 
 [node name="tut_text6" type="RichTextLabel" parent="."]
 unique_name_in_owner = true
@@ -383,7 +383,7 @@ offset_left = 221.0
 offset_top = 39.0
 offset_right = 945.0
 offset_bottom = 244.0
-theme_override_fonts/normal_font = ExtResource("12_f2alh")
+theme_override_fonts/normal_font = ExtResource("12_onab3")
 theme_override_font_sizes/normal_font_size = 64
 bbcode_enabled = true
 text = "[center][shake level=2 rate=2]If you must, you can check combinations with the hint button[/shake][/center]"
@@ -395,18 +395,18 @@ offset_left = 221.0
 offset_top = 39.0
 offset_right = 945.0
 offset_bottom = 244.0
-theme_override_fonts/normal_font = ExtResource("12_f2alh")
+theme_override_fonts/normal_font = ExtResource("12_onab3")
 theme_override_font_sizes/normal_font_size = 64
 bbcode_enabled = true
-text = "[center][shake level=2 rate=2]You're on your own now[/shake][/center]
+text = "[center][shake level=2 rate=2]You`re on your own now[/shake][/center]
 [center][shake level=10 rate=20][color=#664330]good luck[/color][/shake][/center]"
 
 [node name="hint_button" type="Button" parent="."]
 unique_name_in_owner = true
-offset_left = 16.0
-offset_top = 314.0
-offset_right = 85.0
-offset_bottom = 380.0
+offset_left = 1032.0
+offset_top = 289.0
+offset_right = 1101.0
+offset_bottom = 355.0
 theme_override_fonts/font = ExtResource("13_ia8cf")
 theme_override_font_sizes/font_size = 48
 text = "?"
